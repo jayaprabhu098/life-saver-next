@@ -79,7 +79,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: `Bearer {process.env.API_TOKEN}`,
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -102,7 +102,7 @@ export class API {
       'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
       {
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: `Bearer {process.env.API_TOKEN}`,
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -124,7 +124,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: `Bearer {process.env.API_TOKEN}`,
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -148,7 +148,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: `Bearer {process.env.API_TOKEN}`,
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
