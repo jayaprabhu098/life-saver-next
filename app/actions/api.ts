@@ -80,7 +80,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -103,7 +103,7 @@ export class API {
       'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
       {
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -125,7 +125,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -149,7 +149,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
