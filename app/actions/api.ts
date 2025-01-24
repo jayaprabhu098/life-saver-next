@@ -71,97 +71,98 @@ export interface Category {
     healthList: HealthList
   }
   
-  export class API {
-    static saveData = async (data: APIData) => {
-      const response = await fetch(
-        'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
-        {
-          method: 'PATCH',
-          headers: {
-           Authorization: 'Bearer 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',
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-          },
-          body: JSON.stringify({
-            files: {
-              finance: { content: JSON.stringify(data) },
-            },
-          }),
-        },
-      );
-      const res = await response.json();
-      if (!response.ok) {
-        throw Error('Request not saved');
-      }
-      return res;
-    };
   
-    static getData = async () => {
-      const response = await fetch(
-        'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
-        {
-          headers: {
-           Authorization: 'Bearer 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',
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-          },
+export class API {
+  static saveData = async (data: APIData) => {
+    const response = await fetch(
+      'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer {process.env.API_TOKEN}`,
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
         },
-      );
-      if (!response.ok) {
-        throw Error('Unable to fetch data');
-      }
-      const jsonData = await response.json();
-      const data = JSON.parse(jsonData.files.finance.content) as APIData;
-      const fileData = JSON.parse(jsonData.files.media.content) as FileAPIData;
-      const healthData = JSON.parse(jsonData.files.health.content) as HealthAPIData;
-      return { data, fileData, healthData };
-    };
-  
-    static saveFile = async (data: FileAPIData) => {
-      const response = await fetch(
-        'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
-        {
-          method: 'PATCH',
-          headers: {
-            Authorization: 'Bearer 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',
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
+        body: JSON.stringify({
+          files: {
+            finance: { content: JSON.stringify(data) },
           },
-          body: JSON.stringify({
-            files: {
-              media: { content: JSON.stringify(data) },
-            },
-          }),
+        }),
+      },
+    );
+    const res = await response.json();
+    if (!response.ok) {
+      throw Error('Request not saved');
+    }
+    return res;
+  };
+
+  static getData = async () => {
+    const response = await fetch(
+      'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
+      {
+        headers: {
+          Authorization: `Bearer {process.env.API_TOKEN}`,
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
         },
-      );
-      const res = await response.json();
-      if (!response.ok) {
-        throw Error('Request not saved');
-      }
-      return res;
-    };
-  
-    static saveHealthList = async (data: HealthAPIData) => {
-      const response = await fetch(
-        'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
-        {
-          method: 'PATCH',
-          headers: {
-            Authorization: 'Bearer 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',
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
+      },
+    );
+    if (!response.ok) {
+      throw Error('Unable to fetch data');
+    }
+    const jsonData = await response.json();
+    const data = JSON.parse(jsonData.files.finance.content) as APIData;
+    const fileData = JSON.parse(jsonData.files.media.content) as FileAPIData;
+    const healthData = JSON.parse(jsonData.files.health.content) as HealthAPIData;
+    return { data, fileData, healthData };
+  };
+
+  static saveFile = async (data: FileAPIData) => {
+    const response = await fetch(
+      'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer {process.env.API_TOKEN}`,
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+        body: JSON.stringify({
+          files: {
+            media: { content: JSON.stringify(data) },
           },
-          body: JSON.stringify({
-            files: {
-              health: { content: JSON.stringify(data) },
-            },
-          }),
+        }),
+      },
+    );
+    const res = await response.json();
+    if (!response.ok) {
+      throw Error('Request not saved');
+    }
+    return res;
+  };
+
+  static saveHealthList = async (data: HealthAPIData) => {
+    const response = await fetch(
+      'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer {process.env.API_TOKEN}`,
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
         },
-      );
-      const res = await response.json();
-      if (!response.ok) {
-        throw Error('Request not saved');
-      }
-      return res;
-    };
-  }
+        body: JSON.stringify({
+          files: {
+            health: { content: JSON.stringify(data) },
+          },
+        }),
+      },
+    );
+    const res = await response.json();
+    if (!response.ok) {
+      throw Error('Request not saved');
+    }
+    return res;
+  };
+}
