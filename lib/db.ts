@@ -4,8 +4,8 @@ let client: MongoClient | null = null;
 
 export const getDB = async () => {
     if(!client) {
-        client = new MongoClient(process.env.DB_URL!);
+        client = new MongoClient("mongodb+srv://devawsteam:2CuX95xVx6qqK8b5@vibe-dev.2yhbx.mongodb.net/?retryWrites=true&w=majority&appName=vibe-dev");
         await client.connect();
     }
-    return client.db(process.env.DB_NAME)
+    return client.db("vibe-dev")
 }

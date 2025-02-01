@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { API, APIData, FileAPIData, HealthAPIData } from "./api";
+import { API, APIData, FileAPIData, HealthAPIData } from "./action";
 
 export function useQuery() {
 

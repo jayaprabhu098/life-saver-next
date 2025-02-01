@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { useMemo } from 'react';
-import { Category, FileAPIData } from "../actions/api";
+import { Category, FileAPIData } from "../actions/action";
 import Image from 'next/image';
 
 interface IIconSelect {

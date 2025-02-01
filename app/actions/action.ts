@@ -1,4 +1,4 @@
-'use client'
+
 export interface Category {
   id: number;
   name: string;
@@ -80,7 +80,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -103,7 +103,7 @@ export class API {
       'https://api.github.com/gists/23b06265424e8ccc76fc875483aa71ea',
       {
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -118,6 +118,7 @@ export class API {
     const healthData = JSON.parse(jsonData.files.health.content) as HealthAPIData;
     return { data, fileData, healthData };
   };
+  
 
   static saveFile = async (data: FileAPIData) => {
     const response = await fetch(
@@ -125,7 +126,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },
@@ -149,7 +150,7 @@ export class API {
       {
         method: 'PATCH',
         headers: {
-          Authorization: 'Bearer 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',
+          Authorization: 'Bearer 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',
           Accept: 'application/vnd.github+json',
           'X-GitHub-Api-Version': '2022-11-28',
         },

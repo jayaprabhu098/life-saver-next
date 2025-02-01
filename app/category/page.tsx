@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { fileMutation, mutation, useQuery } from "../actions/fetch";
-import { Category } from "../actions/api";
+import { Category } from "../actions/action";
 import CategoryAdd from "./CategoryAdd";
 import DataTable from 'react-data-table-component';
 import { FaGlassWater } from "react-icons/fa6";
@@ -56,7 +56,7 @@ export default function Categories() {
         );
         if (!fFile)
             return;
-        return <Image src={fFile.file} className="h-5" alt="Loading..." />;
+        return <Image src={fFile.file} className="h-5" alt="Loading..."  width={30} height={30} />;
     }
 
     useEffect(() => {

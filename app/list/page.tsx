@@ -1,14 +1,14 @@
 'use client';
 import { useEffect, useState } from "react";
 import { mutation, useQuery } from "../actions/fetch";
-import { List as IList } from "../actions/api";
+import { List as IList } from "../actions/action";
 import ListAdd from "./AddList";
 import dayjs from "dayjs";
 import DataTable from 'react-data-table-component';
 import { FaGlassWater } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa";
 import { Loader } from "../Loader";
-//import Line from "../components/Line";
+import Line from "./Line";
 import { createTheme } from "react-data-table-component";
 import Image from 'next/image';
 
@@ -19,7 +19,7 @@ createTheme("lifesaver", {
     background: {
         default: 'black',
     }
-})
+});
 
 export default function List() {
     const { data, error, loading, refresh, fileData } = useQuery();
@@ -56,8 +56,8 @@ export default function List() {
             const filteredList = type === 1 ? data.debitList : data.creditList;
             const dateFiltered = filteredList.filter(fList =>
                 dayjs(fList.date).format("YYYY-MM") === month
-            )
-            setList(dateFiltered)
+            );
+            setList(dateFiltered);
             const prideCountObj = {
                 day: 0,
                 week: 0,
@@ -69,9 +69,9 @@ export default function List() {
                 if (dayjs(fList.date).isSame(dayjs(), 'month'))
                     prideCountObj.week += fList.amount;
                 if (dayjs(fList.date).isSame(dayjs(), 'month'))
-                    prideCountObj.month += fList.amount
-            })
-            setPrideCount(prideCountObj)
+                    prideCountObj.month += fList.amount;
+            });
+            setPrideCount(prideCountObj);
         }
     }, [type, data, month]);
 
@@ -82,8 +82,8 @@ export default function List() {
         );
         if (!fFile)
             return;
-        return <Image src={fFile.file} className="h-5" alt="Loading" />;
-    }
+        return <Image src={fFile.file} alt="Loading" width={30} height={30} />;
+    };
 
     if (loading)
         return <Loader />;
@@ -120,11 +120,11 @@ export default function List() {
                 </button>
             </div>
 
-            <div className="flex justify-center">
-                {/* <Line
+            <div className="flex justify-center w-[22rem] h-80 align-center m-auto">
+                <Line
                     list={list}
                     total={prideCount.month}
-                /> */}
+                />
             </div>
 
             <div className="flex justify-center m-5">
@@ -150,7 +150,7 @@ export default function List() {
                         name: 'Category',
                         cell: (row) => <div className="flex">
                             {findFile(row.category.icon)}
-                            <span className="ml-2">{row.category.name}</span>
+                            <span className="ml-2 mt-2">{row.category.name}</span>
                         </div>
                     },
                     {
@@ -162,9 +162,8 @@ export default function List() {
                         selector: (row) => row.amount
                     },
                     {
-                        minWidth: '180px',
                         name: 'Date',
-                        selector: (row) => dayjs(row.date).format("DD MMM YYYY, HH:mm A")
+                        cell: (row) => <span className="mw-20">{dayjs(row.date).format("DD MMM YYYY, HH:mm A")}</span>
                     },
                     {
                         name: "Action",
