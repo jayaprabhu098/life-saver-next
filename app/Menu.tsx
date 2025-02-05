@@ -30,8 +30,8 @@ export function Menu() {
                     <AiOutlineAppstore />
                 </Link>
                 <Link
-                    className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/list')}`}
-                    href='/list'
+                    className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/account')}`}
+                    href='/account'
                 >
                     <FaChartSimple />
                 </Link>

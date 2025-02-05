@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 
-export function Loader() {
+export default function Loader() {
 
   const [count, setCount] = useState('')
 

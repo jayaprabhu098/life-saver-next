@@ -1,4 +1,4 @@
-import { List as IList } from '../actions/action';
+'use client'
 import dayJs from "dayjs";
 import { Bar } from "react-chartjs-2";
 
@@ -10,9 +10,10 @@ import {
     Title,
     Tooltip,
 } from "chart.js";
+import { IAccountSchema } from "@/app/actions/type";
 
 interface ILineChart {
-    list: IList[],
+    accounts: IAccountSchema[],
     total: number;
 }
 
@@ -27,7 +28,7 @@ ChartJS.register(
 );
 
 
-export default function Line(
+export default function LineChart(
     props: ILineChart
 ) {
     const data: {
@@ -36,8 +37,8 @@ export default function Line(
         fill: string;
     }[] = [];
 
-    props.list.forEach(list => {
-        const date = dayJs(list.date).format("D");
+    props.accounts.forEach(list => {
+        const date = dayJs(list.createdAt).format("D");
         const index = data.findIndex(d =>
             d.name === date
         );
@@ -54,17 +55,19 @@ export default function Line(
     });
 
     return (
-        <Bar
-            data={{
-                labels: data.map(d => d.name),
-                datasets: [
-                    {
-                        data: data.map(d => d.total),
-                        backgroundColor: data.map(d => d.fill),
-                        barThickness: 10,   
-                    }
-                ]
-            }}
-        />
+        <div className="flex justify-center w-[22rem] h-60 align-center m-auto mt-10 mb-1">
+            <Bar
+                data={{
+                    labels: data.map(d => d.name),
+                    datasets: [
+                        {
+                            data: data.map(d => d.total),
+                            backgroundColor: data.map(d => d.fill),
+                            barThickness: 10,
+                        }
+                    ]
+                }}
+            />
+        </div>
     );
 }
