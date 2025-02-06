@@ -1,15 +1,15 @@
 import dayjs from "dayjs";
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-dayjs.extend(customParseFormat);
 
 export const getStartDateAndEndDate = (month?: number, year?: number) => {
-    const date = dayjs();
-    console.log(month, year)
+    let date = dayjs();
     if (month)
-        date.set('month', Number(month))
+       date = date.set('month', Number(month) - 1);
     if (year)
-        date.set('year', Number(year))
+        date = date.set('year', Number(year));
     const startDate = date.startOf('month').startOf('day').toDate();
-    console.log(startDate);
+    const endDate = date.endOf('month').endOf('day').toDate();
+    console.log(startDate, month)
+    console.log(endDate)
+    return { startDate, endDate };
 
-}
+};

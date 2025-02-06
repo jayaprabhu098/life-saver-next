@@ -1,0 +1,23 @@
+
+'use client';
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from 'next/navigation';
+import dayjs from "dayjs";
+
+interface IToggle {
+    page: string;
+}
+export default function Toggle(props: IToggle) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [type, setType] = useState(Number(searchParams.get('type') ?? 1));
+    const month = searchParams.get('month') ?? (dayjs().get("month") + 1);
+    const year = searchParams.get('year') ?? dayjs().get("year");
+    useEffect(() => {
+        router.replace(`./account?type=${type}&date=${month}`);
+    }, [type]);
+    return (<div className="flex justify-center mt-5">
+        <div onClick={() => setType(1)} className={`w-24 h-10 pl-4 pt-2 rounded-md ${type == 1 ? 'bg-blue-400' : 'bg-slate-400'}`}>Expenses</div>
+        <div onClick={() => setType(2)} className={`ml-2 w-24 h-10 pl-5 pt-2 rounded-md ${type == 2 ? 'bg-blue-400' : 'bg-slate-400'}`}>Income</div><br />
+    </div>);
+}

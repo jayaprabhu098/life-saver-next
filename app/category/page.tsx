@@ -1,6 +1,6 @@
 import { getCategories, getFiles } from "../actions/api";
 import DataTable from "./components/DataTable";
-import Toggle from "./components/Toggle";
+import Toggle from "../components/Toggle";
 import Add from "./components/Add";
 
 export default async function Categories({
@@ -15,7 +15,7 @@ export default async function Categories({
 
     return (
         <section className="flex flex-col">
-            <Toggle />
+            <Toggle page="category" />
             <Add type={type}/>            
             <DataTable categories={categories} files={files} />
         </section>

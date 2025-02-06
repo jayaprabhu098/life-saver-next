@@ -74,7 +74,7 @@ export const getAccounts = async (type: Type.CategoryType): Promise<Type.IAccoun
   return documentIdFormatter(accounts);
 };
 
-export const getAccountByDate = async (type: Type.CategoryType, startDate: Date, endDate: Date) => {
+export const getAccountByDate = async (type: Type.CategoryType, startDate: Date, endDate: Date): Promise<number> => {
   const db = await getDB();
   const [result] = await db.collection(Type.TableName.account).aggregate([
     {
@@ -91,7 +91,7 @@ export const getAccountByDate = async (type: Type.CategoryType, startDate: Date,
         { _id: true, sum: { $sum: "$amount" } }
     },
   ]).toArray();
-  return result.sum ?? 0
+  return result?.sum ?? 0
 }
 
 export const deleteAccount = async (id: string): Promise<void> => {
