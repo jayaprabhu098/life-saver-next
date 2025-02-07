@@ -1,12 +1,12 @@
 'use client'
-import { deleteCategory, deleteFile } from '@/app/actions/api';
+import { deleteAccount, } from '@/app/actions/api';
 import { IAccountSchema, ICategorySchema, IFilesSchema, } from '@/app/actions/type';
 import Table from 'react-data-table-component';
 import { createTheme } from "react-data-table-component";
 import { FaGlassWater } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 import dayjs from "dayjs";
-import Image from 'next/image';
+import { File } from '@/app/components/File';
 
 createTheme("lifesaver", {
     text: {
@@ -27,24 +27,10 @@ export default function DataTable(props: IDataTable) {
     const router = useRouter()
 
     const onDelete = async (
-        categoryId: string,
-        fileId: string
+        accountId: string,
     ) => {
-        await deleteFile(fileId);
-        await deleteCategory(categoryId);
+        await deleteAccount(accountId);
         router.refresh();
-    };
-
-    const findFile = (categoryId: string) => {
-        const fCategory = props.categories.find(category => category.id == categoryId);
-        if(!fCategory)
-            return;
-        const fFile = props.files.find(file =>
-            file.id === fCategory.icon
-        );
-        if (!fFile)
-            return;
-        return <Image src={fFile.file} alt="Loading" width={30} height={30} />;
     };
 
     return (<Table
@@ -53,9 +39,7 @@ export default function DataTable(props: IDataTable) {
         columns={[
             {
                 name: 'Category',
-                cell: (row) => <div className="flex">
-                    {findFile(row.category)}
-                </div>
+                cell: (row) => <File files={props.files} id={row.category} />
             },
             {
                 name: 'comment',
@@ -73,8 +57,7 @@ export default function DataTable(props: IDataTable) {
                 name: "Action",
                 cell: (row) => <button
                     onClick={() =>
-                        // onDelete(row.id)
-                        console.log(row.id)
+                        onDelete(row.id)
                     }
                 ><FaGlassWater /></button>
             }

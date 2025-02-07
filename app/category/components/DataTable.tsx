@@ -1,11 +1,12 @@
 'use client'
 import { deleteCategory, deleteFile } from '@/app/actions/api';
 import { ICategorySchema, IFilesSchema } from '@/app/actions/type';
-import Image from 'next/image';
+
 import Table from 'react-data-table-component';
 import { createTheme } from "react-data-table-component";
 import { FaGlassWater } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation'
+import { File } from '@/app/components/File';
 
 createTheme("lifesaver", {
     text: {
@@ -25,14 +26,7 @@ export default function DataTable(props: IDataTable) {
 
     const router = useRouter()
 
-    const findFile = (id: string) => {
-        const fFile = props.files.find(file =>
-            file.id === id
-        );
-        if (!fFile)
-            return;
-        return <Image src={fFile.file} alt="Loading" width={30} height={30} />;
-    };
+
 
     const onDelete = async (
         categoryId: string,
@@ -49,9 +43,7 @@ export default function DataTable(props: IDataTable) {
         columns={[
             {
                 name: 'Icon',
-                cell: (row) => <span>
-                    {findFile(row.icon)}
-                </span>
+                cell: (row) => <File id={row.id} files={props.files} />
             },
             {
                 name: 'Name',

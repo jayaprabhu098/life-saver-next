@@ -1,24 +1,30 @@
-import Toggle from "./components/Toggle";
-import { getAccounts, getCategories, getFiles } from "../actions/api";
+import { getAccountByDate, getAccounts, getCategories, getFiles } from "../actions/api";
 import DataTable from "./components/DataTable";
 import Add from "./components/Add";
 import LineChart from "./components/LineChart";
 import DataCount from "./components/DataCount";
-import DateFilter from "./components/DateFilter";
+import DateFilter from "../components/DateFilter";
+import Toggle from "../components/Toggle";
+import { getMonthWeekDayDate, getStartDateAndEndDate } from "../actions/date";
 
 
 export default async function Account({
     searchParams,
 }: {
-    searchParams: Promise<{ type: string | undefined, date: string | undefined }>;
+    searchParams: Promise<{ type?: string, year?: number, month?: number; }>;
 }) {
     const params = await searchParams;
     const type = Number(params.type);
-    const [accounts, categories, files] = await Promise.all([
-        getAccounts(type),
+    const { startDate, endDate } = getStartDateAndEndDate(params.month, params.year);
+    const dates = getMonthWeekDayDate();
+    const [accounts, categories, files, monthCount, weekCount, dayCount] = await Promise.all([
+        getAccounts(type, startDate, endDate),
         getCategories(type),
-        getFiles()
-    ])
+        getFiles(),
+        getAccountByDate(type, dates.startMonthDate, dates.endMonthDate),
+        getAccountByDate(type, dates.startWeekDate, dates.startWeekDate),
+        getAccountByDate(type, dates.startDayDate, dates.startDayDate)
+    ]);
 
     return (
         <section className="flex flex-col">
@@ -27,8 +33,8 @@ export default async function Account({
             </div>
             <Add type={type} categories={categories} files={files} />
             <Toggle />
-            <LineChart accounts={accounts} total={0} />
-            <DataCount accounts={accounts} />
+            <LineChart accounts={accounts} />
+            <DataCount day={dayCount} month={monthCount} week={weekCount} />
             <DataTable accounts={accounts} categories={categories} files={files} />
         </section>
     );

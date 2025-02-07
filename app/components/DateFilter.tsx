@@ -2,24 +2,24 @@
 'use client';
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
-interface iDateFilter {
-    page: string;
-}
-export default function DateFilter(props: iDateFilter) {
+export default function DateFilter() {
     const searchParams = useSearchParams();
+    const pathname = usePathname();
     const router = useRouter();
+
     const [month, setMonth] = useState(searchParams.get('month') ?? (dayjs().get("month") + 1));
     const [year, setYear] = useState(searchParams.get('year') ?? dayjs().get("year"));
+
+    console.log(pathname);
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('month', String(month));
         params.set('year', String(year));
-        router.push(`./${props.page}${params.toString()}`);
-    }, [month, year]);
+        router.replace(`${pathname}?${params.toString()}`);
+    }, [month, year, pathname, router, searchParams]);
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.value) {

@@ -1,6 +1,6 @@
 import PieChart from "./components/PieChart";
 import DateFilter from "../components/DateFilter";
-import { getStartDateAndEndDate } from "../actions/util";
+import { getStartDateAndEndDate } from "../actions/date";
 import { getAccountByDate } from "../actions/api";
 import { CategoryType } from "../actions/type";
 
@@ -18,7 +18,7 @@ export default async function Home({
         <section className="flex flex-col justify-center items-center">
 
             <div className="self-end mt-5">
-                <DateFilter page="home"/>
+                <DateFilter />
             </div>
             <div className="mt-7 h-30">
                 <p className="text-2xl font-bold text-center mb-5">Spending</p>

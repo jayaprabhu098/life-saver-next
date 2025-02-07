@@ -1,6 +1,6 @@
 import Select from "react-select";
-import Image from 'next/image';
 import { ICategorySchema, IFilesSchema } from "@/app/actions/type";
+import { File } from "@/app/components/File";
 
 interface IIconSelect {
   value: string;
@@ -13,19 +13,12 @@ interface IIconSelect {
 
 
 export const IconDropDown = (props: IIconSelect) => {
-  const findFile = (id: string) => {
-    const fFile = props.files.find(file =>
-      file.id === id
-    );
-    if (!fFile)
-      return;
-    return <Image src={fFile.file} alt="Loading" width={30} height={30} />;
-  };
+
   const options = props.categories.map((category) => {
     return {
       value: String(category.id),
       label: <div className="flex">
-        {findFile(category.icon)}
+        <File files={props.files} id={category.icon} />
         <span className="ml-2">{category.name}</span>
       </div>
     };

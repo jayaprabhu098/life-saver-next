@@ -1,4 +1,4 @@
-'use server'
+'use server';
 import { MongoClient, ObjectId } from "mongodb";
 import * as Type from "./type";
 
@@ -8,8 +8,8 @@ export const getDB = async () => {
     client = new MongoClient("mongodb+srv://test2022dev:JMuql7tyqgSlfl0K@lifesavercluster.6dpy5.mongodb.net/?retryWrites=true&w=majority&appName=LifeSaverCluster");
     await client.connect();
   }
-  return client.db("LifeSaver")
-}
+  return client.db("LifeSaver");
+};
 
 export const getFiles = async (): Promise<Type.IFilesSchema[]> => {
   const db = await getDB();
@@ -68,9 +68,14 @@ export const insertAccount = async (account: Type.IAccountSchema): Promise<void>
   await db.collection(Type.TableName.account).insertOne(account);
 };
 
-export const getAccounts = async (type: Type.CategoryType): Promise<Type.IAccountSchema[]> => {
+export const getAccounts = async (type: Type.CategoryType, startDate: Date, endDate: Date): Promise<Type.IAccountSchema[]> => {
   const db = await getDB();
-  const accounts = await db.collection(Type.TableName.account).find<Type.IAccountSchema>({ type }).sort('createdAt', -1).toArray();
+  const accounts = await db.collection(Type.TableName.account).find<Type.IAccountSchema>({
+    type, createdAt: {
+      $gte: startDate,
+      $lte: endDate
+    },
+  }).sort('createdAt', -1).toArray();
   return documentIdFormatter(accounts);
 };
 
@@ -91,8 +96,8 @@ export const getAccountByDate = async (type: Type.CategoryType, startDate: Date,
         { _id: true, sum: { $sum: "$amount" } }
     },
   ]).toArray();
-  return result?.sum ?? 0
-}
+  return result?.sum ?? 0;
+};
 
 export const deleteAccount = async (id: string): Promise<void> => {
   const db = await getDB();

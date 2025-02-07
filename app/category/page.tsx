@@ -15,7 +15,7 @@ export default async function Categories({
 
     return (
         <section className="flex flex-col">
-            <Toggle page="category" />
+            <Toggle />
             <Add type={type}/>            
             <DataTable categories={categories} files={files} />
         </section>

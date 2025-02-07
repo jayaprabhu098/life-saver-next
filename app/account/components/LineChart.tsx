@@ -14,7 +14,6 @@ import { IAccountSchema } from "@/app/actions/type";
 
 interface ILineChart {
     accounts: IAccountSchema[],
-    total: number;
 }
 
 const colors = ['#FCA5A5', '#FDBA74', '#FDE68A', '#CA8A04'];
