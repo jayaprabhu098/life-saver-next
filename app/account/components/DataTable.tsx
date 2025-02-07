@@ -33,13 +33,18 @@ export default function DataTable(props: IDataTable) {
         router.refresh();
     };
 
+    const findCategory = (id: string) => {
+        const fCategory = props.categories.find((category => category.id === id));
+        return fCategory?.icon ?? ''
+    }
+
     return (<Table
         data={props.accounts}
         theme="lifesaver"
         columns={[
             {
                 name: 'Category',
-                cell: (row) => <File files={props.files} id={row.category} />
+                cell: (row) => <File files={props.files} id={findCategory(row.category)} />
             },
             {
                 name: 'comment',

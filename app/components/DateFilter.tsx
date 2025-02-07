@@ -12,8 +12,6 @@ export default function DateFilter() {
     const [month, setMonth] = useState(searchParams.get('month') ?? (dayjs().get("month") + 1));
     const [year, setYear] = useState(searchParams.get('year') ?? dayjs().get("year"));
 
-    console.log(pathname);
-
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('month', String(month));

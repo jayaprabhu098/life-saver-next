@@ -43,7 +43,7 @@ export default function DataTable(props: IDataTable) {
         columns={[
             {
                 name: 'Icon',
-                cell: (row) => <File id={row.id} files={props.files} />
+                cell: (row) => <File id={row.icon} files={props.files} />
             },
             {
                 name: 'Name',

@@ -8,8 +8,6 @@ export const getStartDateAndEndDate = (month?: number, year?: number) => {
         date = date.set('year', Number(year));
     const startDate = date.startOf('month').startOf('day').toDate();
     const endDate = date.endOf('month').endOf('day').toDate();
-    console.log(startDate, month)
-    console.log(endDate)
     return { startDate, endDate };
 
 };

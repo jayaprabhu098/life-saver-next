@@ -3,7 +3,7 @@ import { IFilesSchema } from '@/app/actions/type';
 
 interface IFile {
     id: string;
-     files: IFilesSchema[];
+    files: IFilesSchema[];
 }
 export function File(props: IFile) {
     const fFile = props.files.find(file =>
