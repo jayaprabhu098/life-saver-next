@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 export const getStartDateAndEndDate = (month?: number, year?: number) => {
     let date = dayjs();
     if (month)
-       date = date.set('month', Number(month) - 1);
+        date = date.set('month', Number(month) - 1);
     if (year)
         date = date.set('year', Number(year));
     const startDate = date.startOf('month').startOf('day').toDate();
@@ -20,7 +20,7 @@ export const getMonthWeekDayDate = () => {
     const endWeekDate = date.endOf('week').endOf('day').toDate();
     const startDayDate = date.startOf('day').toDate();
     const endDayDate = date.endOf('day').toDate();
-    
+
     return {
         startMonthDate,
         endMonthDate,
