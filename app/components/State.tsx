@@ -18,7 +18,7 @@ export function useSearch() {
         params.set('month', String(month));
         params.set('year', String(year));
         router.replace(`${pathname}?${params.toString()}`);
-    }, [type, pathname, router, searchParams]);
+    }, [type, month, year, pathname, router, searchParams]);
 
 
     return {
