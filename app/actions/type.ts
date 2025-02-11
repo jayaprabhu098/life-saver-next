@@ -1,6 +1,7 @@
 export enum TableName {
   file = 'files',
   saving = 'savings',
+  savingList = 'savingList',
   category = 'categories',
   account = 'accounts',
 }
@@ -16,10 +17,17 @@ export interface IFilesSchema {
   createdAt: Date;
 }
 
-export interface ISavingSchema {
+export interface ISavingListSchema {
   id: string;
   name: string;
   amount: number;
+  createdAt: Date;
+  savingId: string;
+}
+
+export interface ISavingSchema {
+  id: string;
+  name: string;
   target: number;
 }
 
@@ -39,10 +47,3 @@ export interface IAccountSchema {
   amount: number;
   type: CategoryType;
 }
-
-export interface ISavingAdd {
-  name: string;
-  type: string;
-  amount: number;
-}
-

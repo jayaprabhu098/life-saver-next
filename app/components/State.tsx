@@ -11,14 +11,16 @@ export function useSearch() {
     const [type, setType] = useState(1);
     const [month, setMonth] = useState(dayjs().get("month") + 1);
     const [year, setYear] = useState(dayjs().get("year"));
+    const [search, setSearch] = useState(searchParams.toString())
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('type', String(type));
         params.set('month', String(month));
         params.set('year', String(year));
+        setSearch(params.toString());
         router.replace(`${pathname}?${params.toString()}`);
-    }, [type, month, year, pathname, router, searchParams]);
+    }, [type, month, year, pathname, router, searchParams, search]);
 
 
     return {
@@ -27,7 +29,8 @@ export function useSearch() {
         month,
         setMonth,
         year,
-        setYear
+        setYear,
+        search
     }
 
 }

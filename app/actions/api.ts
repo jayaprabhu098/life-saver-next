@@ -28,27 +28,47 @@ export const insertFile = async (file: string): Promise<string> => {
   return String(insertResult.insertedId);
 };
 
-export const insertSaving = async (saving: Type.ISavingSchema): Promise<void> => {
+export const updateSaving = async (saving: Type.ISavingSchema): Promise<void> => {
   const db = await getDB();
+  const id = new ObjectId(saving.id);
   formatInsert(saving);
-  await db.collection(Type.TableName.saving).insertOne(saving);
+  await db.collection(Type.TableName.saving).updateOne({ _id: id }, saving);
 };
 
-export const getSavings = async (): Promise<Type.ISavingSchema[]> => {
+export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
   const db = await getDB();
-  const savings = await db.collection(Type.TableName.saving).find<Type.ISavingSchema>({}).sort('createdAt', -1).toArray();
+  const savings = await db.collection(Type.TableName.saving).findOne<Type.ISavingSchema>({});
   return documentIdFormatter(savings);
 };
 
-export const deleteSaving = async (id: string): Promise<void> => {
+export const insertSavingList = async (list: Type.ISavingListSchema): Promise<void> => {
   const db = await getDB();
-  await db.collection(Type.TableName.saving).deleteOne({ _id: new ObjectId(id) });
+  const id = new ObjectId(list.id);
+  formatInsert(list);
+  await db.collection(Type.TableName.savingList).insertOne(list);
+};
+
+export const getSavingList = async (savingId: string): Promise<Type.ISavingListSchema[]> => {
+  const db = await getDB();
+  const list = await db.collection(Type.TableName.savingList)
+    .find<Type.ISavingListSchema>({ savingId })
+    .sort('createdAt', -1)
+    .toArray();
+  return documentIdFormatter(list);
+};
+
+export const deleteList = async (id: string): Promise<void> => {
+  const db = await getDB();
+  await db.collection(Type.TableName.savingList).deleteOne({ _id: new ObjectId(id) });
 };
 
 export const insertCategory = async (category: Type.ICategorySchema): Promise<void> => {
   const db = await getDB();
+  const id = new ObjectId(category.id);
   formatInsert(category);
-  await db.collection(Type.TableName.category).insertOne(category);
+  await db.collection(Type.TableName.category).updateOne({ _id: id }, {
+    $set: category
+  });
 };
 
 export const getCategories = async (type: Type.CategoryType): Promise<Type.ICategorySchema[]> => {
