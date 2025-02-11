@@ -5,7 +5,7 @@ import * as zod from 'zod';
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { ISavingListSchema, ISavingSchema } from "@/app/actions/type";
-import { insertSavingList, updateSaving } from "@/app/actions/api";
+import { insertSavingList } from "@/app/actions/api";
 import { useRouter } from 'next/navigation'
 
 interface ISave {

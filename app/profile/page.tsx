@@ -7,7 +7,7 @@ import Save from "./components/Save";
 export default async function Profile() {
     const saving = await getSaving();
     if (!saving)
-        return <></>
+        return <div>Page not Found</div>
     const savingList = await getSavingList(saving.id)
     return (
         <section className="flex flex-col ">

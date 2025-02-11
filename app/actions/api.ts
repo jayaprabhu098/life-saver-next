@@ -43,7 +43,6 @@ export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
 
 export const insertSavingList = async (list: Type.ISavingListSchema): Promise<void> => {
   const db = await getDB();
-  const id = new ObjectId(list.id);
   formatInsert(list);
   await db.collection(Type.TableName.savingList).insertOne(list);
 };
