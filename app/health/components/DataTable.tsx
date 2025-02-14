@@ -1,22 +1,23 @@
 'use client'
-import { ISavingListSchema, ISavingSchema } from '@/app/actions/type';
+import { IHealthSchema, } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
-import { deleteList } from '@/app/actions/api';
+import { deleteHealth } from '@/app/actions/api';
 import Table from '@/app/components/Table';
+import dayjs from 'dayjs';
 
+const needWight = 70;
 interface IDataTable {
-    savings: ISavingSchema | null;
-    list: ISavingListSchema[]
+    list: IHealthSchema[]
 }
 export default function DataTable(props: IDataTable) {
 
     const router = useRouter()
 
     const onDelete = async (
-        listId: string,
+        healthId: string,
     ) => {
-        await deleteList(listId);
+        await deleteHealth(healthId);
         router.refresh();
     };
 
@@ -25,13 +26,17 @@ export default function DataTable(props: IDataTable) {
         data={props.list}
         columns={[
             {
-                name: 'Amount',
-                cell: (row) => new Intl.NumberFormat('en-IN').format(row.amount)
+                name: 'Date',
+                cell: (row) => <span>{dayjs(row.createdAt).format("DD MMM YYYY")}</span>
             },
             {
-                name: 'name',
-                cell: (row) => <span className="mw-20">{row.name}</span>
+                name: 'Weight',
+                selector: (row) => row.weight
             },
+            {
+                name: 'Reduce Weight',
+                selector: (row) => row.weight - needWight
+            },    
             {
                 name: "Action",
                 cell: (row) => <button

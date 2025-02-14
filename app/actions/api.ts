@@ -123,6 +123,26 @@ export const deleteAccount = async (id: string): Promise<void> => {
   await db.collection(Type.TableName.account).deleteOne({ _id: new ObjectId(id) });
 };
 
+export const insertHealthList = async (list: Type.IHealthSchema): Promise<void> => {
+  const db = await getDB();
+  formatInsert(list);
+  await db.collection(Type.TableName.health).insertOne(list);
+};
+
+export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
+  const db = await getDB();
+  const list = await db.collection(Type.TableName.health)
+    .find<Type.IHealthSchema>({})
+    .sort('createdAt', -1)
+    .toArray();
+  return documentIdFormatter(list);
+};
+
+export const deleteHealth = async (id: string): Promise<void> => {
+  const db = await getDB();
+  await db.collection(Type.TableName.health).deleteOne({ _id: new ObjectId(id) });
+};
+
 const formatInsert = (list: { id?: string; }): void => {
   delete list.id;
 };

@@ -4,27 +4,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from 'zod';
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { ISavingListSchema, ISavingSchema } from "@/app/actions/type";
-import { insertSavingList } from "@/app/actions/api";
+import { IHealthSchema } from "@/app/actions/type";
+import { insertHealthList } from "@/app/actions/api";
 import { useRouter } from 'next/navigation';
 
-interface ISave {
-    saving: ISavingSchema;
-}
-export default function Add(props: ISave) {
+export default function Add() {
     const [show, setShow] = useState(false);
     const router = useRouter();
 
-    const form = useForm<ISavingListSchema>({
+    const form = useForm<IHealthSchema>({
         resolver: zodResolver(validators)
     });
 
 
-    const onSubmit = async (fromData: ISavingListSchema) => {
+    const onSubmit = async (fromData: IHealthSchema) => {
         fromData.createdAt = new Date();
-        fromData.amount = Number(fromData.amount);
-        fromData.savingId = props.saving.id;
-        await insertSavingList(fromData);
+        fromData.weight = Number(fromData.weight);
+        await insertHealthList(fromData);
         form.reset();
         setShow(false);
         router.refresh();
@@ -40,36 +36,21 @@ export default function Add(props: ISave) {
                     <div className="w-60 h-[20rem] bg-blue-400 rounded-md p-5">
                         <div
                             className="text-xl font-bold mb-5 text-center"
-                        >Add Saving List</div>
+                        >Add Weight</div>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
                             <div className="h-20">
-                                <div className="w-full">Name</div>
+                                <div className="w-full">weight</div>
                                 <input
-                                    {...form.register('name')}
-                                    placeholder='Enter name'
-                                    className="w-full rounded border-black border-2 pl-2 pr-2 text-black"
-                                />
-                                {form.formState.errors.name
-                                    && <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.name.message}</p>}
-                            </div>
-
-                            <div className="h-20">
-                                <div className="w-full">Amount</div>
-                                <input
-                                    {...form.register('amount')}
+                                    {...form.register('weight')}
                                     type="number"
-                                    placeholder='Enter Amount'
+                                    placeholder='Enter weight'
                                     className="w-full rounded border-black border-2 pl-2 pr-2 text-black"
                                 />
-                                {form.formState.errors.amount
+                                {form.formState.errors.weight
                                     && <p
                                         className='text-red-700 text-sm'
-                                    >{form.formState.errors.amount.message}</p>}
+                                    >{form.formState.errors.weight.message}</p>}
                             </div>
-
-
                             <div className="h-5 flex justify-end items-center">
                                 <button
                                     type="submit"
@@ -95,6 +76,5 @@ export default function Add(props: ISave) {
 }
 
 const validators = zod.object({
-    name: zod.string().min(1),
-    amount: zod.string(),
+    weight: zod.string().min(1),
 });

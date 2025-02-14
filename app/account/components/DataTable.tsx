@@ -1,21 +1,11 @@
 'use client'
 import { deleteAccount, } from '@/app/actions/api';
 import { IAccountSchema, ICategorySchema, IFilesSchema, } from '@/app/actions/type';
-import Table from 'react-data-table-component';
-import { createTheme } from "react-data-table-component";
 import { FaGlassWater } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 import dayjs from "dayjs";
 import { File } from '@/app/components/File';
-
-createTheme("lifesaver", {
-    text: {
-        primary: 'white',
-    },
-    background: {
-        default: 'black',
-    }
-})
+import Table from '@/app/components/Table';
 
 interface IDataTable {
     accounts: IAccountSchema[];

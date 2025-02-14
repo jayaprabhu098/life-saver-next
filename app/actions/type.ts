@@ -4,6 +4,7 @@ export enum TableName {
   savingList = 'savingList',
   category = 'categories',
   account = 'accounts',
+  health = 'health'
 }
 
 export enum CategoryType {
@@ -46,4 +47,10 @@ export interface IAccountSchema {
   createdAt: Date;
   amount: number;
   type: CategoryType;
+}
+
+export interface IHealthSchema {
+  id: string;
+  createdAt: Date;
+  weight: number;
 }
