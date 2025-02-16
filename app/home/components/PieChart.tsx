@@ -15,8 +15,9 @@ export default function PieChart(
 ) {
     return (
     <Pie
+        height="300px"
         data={{
-            labels: ['Income', 'Expense'],
+            labels: ['Expense', 'Income'],
             datasets: [
                 {
                     datalabels: {

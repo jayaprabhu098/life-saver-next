@@ -20,7 +20,7 @@ export default async function Home({
             <div className="self-end mt-5">
                 <DateFilter />
             </div>
-            <div className="mt-7 h-30">
+            <div className="mt-7">
                 <p className="text-2xl font-bold text-center mb-5">Spending</p>
                 <PieChart expense={expense} income={income} />
             </div>

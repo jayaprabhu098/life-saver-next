@@ -68,7 +68,7 @@ export default function Add() {
             </section>}
             <button
                 onClick={() => setShow(true)}
-                className="mr-2 w-8 h-6 m-3">
+                className="mr-2 w-8 h-6 m-3 self-end mt-5">
                 <FaPlus />
             </button>
         </>
