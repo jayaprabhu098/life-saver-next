@@ -2,9 +2,6 @@
 'use client';
 import { useSearch } from "./State";
 
-interface IToggle {
-    type: number
-}
 export default function Toggle() {
 
     const {
