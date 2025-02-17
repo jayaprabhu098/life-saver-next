@@ -6,19 +6,15 @@ import { FaUser } from "react-icons/fa";
 import { FaHeartCircleCheck } from "react-icons/fa6";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import { useSearch } from "./State";
 
 export function Menu() {
     const pathname = usePathname();
-    const { search } = useSearch();
 
     const getColor = (path: string) => {
         return pathname === path
             ? 'bg-cyan-400'
             : '';
     };
-    if (pathname == '/')
-        return <></>;
 
     return (
         <section className="flex justify-center p-2 bg-slate-500">
@@ -26,26 +22,26 @@ export function Menu() {
                 <Link href="/home" className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/home')}`}>
                     <FaHome />
                 </Link>
-                <Link href={'/category?' + search}
+                <Link href='/category?'
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/category')}`}
                 >
                     <AiOutlineAppstore />
                 </Link>
                 <Link
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/account')}`}
-                    href={'/account?' + search}
+                    href='/account'
                 >
                     <FaChartSimple />
                 </Link>
                 <Link
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/health')}`}
-                    href={'/health?' + search}
+                    href='/health?'
                 >
                     <FaHeartCircleCheck />
                 </Link>
                 <Link
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/profile')}`}
-                    href={'/profile?' + search}
+                    href='/profile'
                 >
                     <FaUser />
                 </Link>

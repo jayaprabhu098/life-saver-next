@@ -1,18 +1,31 @@
+'use client'
 import PieChart from "./components/PieChart";
 import DateFilter from "../components/DateFilter";
-import { getStartDateAndEndDate } from "../actions/date";
 import { getAccountByDate } from "../actions/api";
 import { CategoryType } from "../actions/type";
+import { useEffect, useState } from "react";
+import { useSearch } from "../components/State";
 
-export default async function Home({
-    searchParams,
-}: {
-    searchParams: Promise<{ year?: number, month?: number; }>;
-}) {
-    const { month, year } = await searchParams;
-    const { startDate, endDate } = getStartDateAndEndDate(month, year);
-    const expense = await getAccountByDate(CategoryType.debit, startDate, endDate);
-    const income = await getAccountByDate(CategoryType.credit, startDate, endDate);
+export default function Home() {
+
+    const { startDate, endDate } = useSearch();
+    const [expense, setExpense] = useState(0);
+    const [income, setIncome] = useState(0);
+
+    useEffect(() => {
+        const fetch = async () => {
+            if (!startDate || !endDate)
+                return;
+            const [expenseCount, incomeCount] = await Promise.all([
+                getAccountByDate(CategoryType.debit, startDate, endDate),
+                getAccountByDate(CategoryType.credit, startDate, endDate)
+            ])
+            setExpense(expenseCount)
+            setIncome(incomeCount)
+
+        }
+        fetch()
+    }, [startDate, endDate])
 
     return (
         <section className="flex flex-col justify-center items-center">

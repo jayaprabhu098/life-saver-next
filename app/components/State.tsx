@@ -1,36 +1,33 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { getStartDateAndEndDate } from "./date";
 
 export function useSearch() {
-    const pathname = usePathname();
-    const router = useRouter();
-    const searchParams = useSearchParams();
-
     const [type, setType] = useState(1);
     const [month, setMonth] = useState(dayjs().get("month") + 1);
     const [year, setYear] = useState(dayjs().get("year"));
-    const [search, setSearch] = useState(searchParams.toString())
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
+
 
     useEffect(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('type', String(type));
-        params.set('month', String(month));
-        params.set('year', String(year));
-        setSearch(params.toString());
-        router.replace(`${pathname}?${params.toString()}`);
-    }, [type, month, year, pathname, router, searchParams, search]);
+        const date = getStartDateAndEndDate(month, year);
+        setStartDate(date.startDate);
+        setEndDate(date.endDate)
+    }, [month, year])
+
 
 
     return {
         type,
+        startDate,
+        endDate,
         setType,
         month,
         setMonth,
         year,
-        setYear,
-        search
+        setYear
     }
 
 }
