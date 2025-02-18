@@ -1,22 +1,19 @@
 
 'use client';
 import { ChangeEvent } from "react";
-import { useSearch } from "./State";
-
-export default function DateFilter() {
-    
-    const {
-        month,
-        setMonth,
-        year,
-        setYear
-    } = useSearch();
+interface IDateFilter {
+    month: number;
+    setMonth: (month: number) => void;
+    year: number;
+    setYear: (year: number) => void;
+}
+export default function DateFilter(props: IDateFilter) {
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.value) {
             const [eYear, eMonth] = e.target.value.split('-');
-            setMonth(Number(eMonth));
-            setYear(Number(eYear));
+            props.setMonth(Number(eMonth));
+            props.setYear(Number(eYear));
         }
     };
 
@@ -24,6 +21,6 @@ export default function DateFilter() {
         type="month"
         onChange={onChange}
         className="mr-10 text-white bg-slate-500 rounded-xl p-2"
-        value={year + '-' + String(month).padStart(2, '0')}
+        value={props.year + '-' + String(props.month).padStart(2, '0')}
     />);
 }

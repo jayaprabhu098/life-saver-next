@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { getAccountByDate, getAccounts, getCategories, getFiles } from "../actions/api";
 import DataTable from "./components/DataTable";
 import Add from "./components/Add";
@@ -13,11 +13,11 @@ import { IAccountSchema, ICategorySchema, IFilesSchema } from "../actions/type";
 
 
 export default function Account() {
-    const { type, startDate, endDate } = useSearch();
+    const { type, startDate, endDate, setType, month, year, setMonth, setYear } = useSearch();
     const [monthCount, setMonthCount] = useState(0);
     const [weekCount, setWeekCount] = useState(0);
     const [dayCount, setDayCount] = useState(0);
-    const [files, setFiles] = useState<IFilesSchema[]>([])
+    const [files, setFiles] = useState<IFilesSchema[]>([]);
     const [categories, setCategories] = useState<ICategorySchema[]>([]);
     const [accounts, setAccounts] = useState<IAccountSchema[]>([]);
 
@@ -33,10 +33,10 @@ export default function Account() {
             setMonthCount(res[0]);
             setWeekCount(res[1]);
             setDayCount(res[2]);
-            setFiles(res[3])
-        }
-        fetch()
-    }, [])
+            setFiles(res[3]);
+        };
+        fetch();
+    }, [type]);
 
     useEffect(() => {
         const fetch = async () => {
@@ -44,9 +44,9 @@ export default function Account() {
                 return;
             const res = await getCategories(type);
             setCategories(res);
-        }
-        fetch()
-    }, [type])
+        };
+        fetch();
+    }, [type]);
 
     useEffect(() => {
         const fetch = async () => {
@@ -54,17 +54,17 @@ export default function Account() {
                 return;
             const res = await getAccounts(type, startDate, endDate);
             setAccounts(res);
-        }
-        fetch()
-    }, [type, startDate, endDate])
+        };
+        fetch();
+    }, [type, startDate, endDate]);
 
     return (
         <section className="flex flex-col">
             <div className="self-end mt-5">
-                <DateFilter />
+                <DateFilter month={month} year={year} setMonth={setMonth} setYear={setYear} />
             </div>
             <Add type={type} categories={categories} files={files} />
-            <Toggle />
+            <Toggle type={type} setType={setType} />
             <LineChart accounts={accounts} />
             <DataCount day={dayCount} month={monthCount} week={weekCount} />
             <DataTable accounts={accounts} categories={categories} files={files} />

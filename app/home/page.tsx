@@ -8,7 +8,7 @@ import { useSearch } from "../components/State";
 
 export default function Home() {
 
-    const { startDate, endDate } = useSearch();
+    const { startDate, endDate, month, year, setMonth, setYear } = useSearch();
     const [expense, setExpense] = useState(0);
     const [income, setIncome] = useState(0);
 
@@ -31,7 +31,7 @@ export default function Home() {
         <section className="flex flex-col justify-center items-center">
 
             <div className="self-end mt-5">
-                <DateFilter />
+                <DateFilter month={month} year={year} setMonth={setMonth} setYear={setYear} />
             </div>
             <div className="mt-7">
                 <p className="text-2xl font-bold text-center mb-5">Spending</p>

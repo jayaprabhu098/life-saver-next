@@ -9,10 +9,10 @@ import { ICategorySchema, IFilesSchema } from "../actions/type";
 
 export default function Categories() {
 
-    const { type } = useSearch();
+    const { type, setType } = useSearch();
     const [files, setFiles] = useState<IFilesSchema[]>([]);
     const [categories, setCategories] = useState<ICategorySchema[]>([]);
-    console.log(type)
+
     useEffect(() => {
         const fetch = async () => {
             const res = await getFiles();
@@ -33,7 +33,7 @@ export default function Categories() {
 
     return (
         <section className="flex flex-col">
-            <Toggle />
+            <Toggle type={type} setType={setType} />
             <Add type={type} />
             <DataTable categories={categories} files={files} />
         </section>
