@@ -5,7 +5,7 @@ import * as Type from "./type";
 let client: MongoClient | null = null;
 export const getDB = async () => {
   if (!client) {
-    client = new MongoClient("mongodb+srv://test2022dev:JMuql7tyqgSlfl0K@lifesavercluster.6dpy5.mongodb.net/?retryWrites=true&w=majority&appName=LifeSaverCluster");
+    client = new MongoClient("mongodb+srv://test2022dev:BLy7RyoEcrkYTEYQ@lifesaver.6dpy5.mongodb.net/?retryWrites=true&w=majority&appName=lifesaver");
     await client.connect();
   }
   return client.db("LifeSaver");
@@ -63,11 +63,8 @@ export const deleteList = async (id: string): Promise<void> => {
 
 export const insertCategory = async (category: Type.ICategorySchema): Promise<void> => {
   const db = await getDB();
-  const id = new ObjectId(category.id);
   formatInsert(category);
-  await db.collection(Type.TableName.category).updateOne({ _id: id }, {
-    $set: category
-  });
+  await db.collection(Type.TableName.category).insertOne(category);
 };
 
 export const getCategories = async (type: Type.CategoryType): Promise<Type.ICategorySchema[]> => {
