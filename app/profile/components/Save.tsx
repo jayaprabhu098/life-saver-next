@@ -6,14 +6,12 @@ import { useState } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { ISavingSchema } from "@/app/actions/type";
 import { updateSaving } from "@/app/actions/api";
-import { useRouter } from 'next/navigation'
 
 interface ISave {
     saving: ISavingSchema
 }
 export default function Save(props: ISave) {
     const [show, setShow] = useState(false);
-    const router = useRouter()
 
     const form = useForm<ISavingSchema>({
         resolver: zodResolver(validators),
@@ -28,7 +26,7 @@ export default function Save(props: ISave) {
         await updateSaving(fromData)
         form.reset();
         setShow(false)
-        router.refresh();
+        window.location.reload()
     };
 
 

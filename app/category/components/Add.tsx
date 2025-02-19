@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { FaPlus } from "react-icons/fa";
 import { ICategorySchema } from "@/app/actions/type";
 import { insertCategory, insertFile } from "@/app/actions/api";
-import { useRouter } from 'next/navigation'
 
 interface IProps {
     type: number;
@@ -15,7 +14,6 @@ interface IProps {
 export default function Add(props: IProps) {
     const [show, setShow] = useState(false);
     const [file, setFile] = useState<string | null>(null)
-    const router = useRouter()
 
     const form = useForm<ICategorySchema>({
         resolver: zodResolver(validators),
@@ -46,7 +44,7 @@ export default function Add(props: IProps) {
         form.reset();
         setFile(null);
         setShow(false);
-        router.refresh();
+        window.location.reload()
     };
 
 

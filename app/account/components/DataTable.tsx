@@ -2,7 +2,6 @@
 import { deleteAccount, } from '@/app/actions/api';
 import { IAccountSchema, ICategorySchema, IFilesSchema, } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
-import { useRouter } from 'next/navigation';
 import dayjs from "dayjs";
 import { File } from '@/app/components/File';
 import Table from '@/app/components/Table';
@@ -14,13 +13,11 @@ interface IDataTable {
 }
 export default function DataTable(props: IDataTable) {
 
-    const router = useRouter()
-
     const onDelete = async (
         accountId: string,
     ) => {
         await deleteAccount(accountId);
-        router.refresh();
+        window.location.reload()
     };
 
     const findCategory = (id: string) => {

@@ -8,7 +8,6 @@ import dayjs from "dayjs";
 import { IAccountSchema, ICategorySchema, IFilesSchema } from "@/app/actions/type";
 import { FaPlus } from "react-icons/fa";
 import { insertAccount } from "@/app/actions/api";
-import { useRouter } from "next/navigation";
 
 interface IProps {
     type: number;
@@ -18,7 +17,6 @@ interface IProps {
 export default function Add(props: IProps) {
 
     const [show, setShow] = useState(false);
-    const router = useRouter()
 
     const form = useForm<IAccountSchema>({
         resolver: zodResolver(validators),
@@ -35,7 +33,7 @@ export default function Add(props: IProps) {
             await insertAccount(fromData);
             form.reset();
             setShow(false);
-            router.refresh();
+            window.location.reload() 
         }
     };
 

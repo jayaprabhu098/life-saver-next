@@ -1,7 +1,6 @@
 'use client'
 import { ISavingListSchema, ISavingSchema } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
-import { useRouter } from 'next/navigation';
 import { deleteList } from '@/app/actions/api';
 import Table from '@/app/components/Table';
 
@@ -11,13 +10,11 @@ interface IDataTable {
 }
 export default function DataTable(props: IDataTable) {
 
-    const router = useRouter()
-
     const onDelete = async (
         listId: string,
     ) => {
         await deleteList(listId);
-        router.refresh();
+        window.location.reload()
     };
 
     return (<Table

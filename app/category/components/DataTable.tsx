@@ -2,7 +2,6 @@
 import { deleteCategory, deleteFile } from '@/app/actions/api';
 import { ICategorySchema, IFilesSchema } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
-import { useRouter } from 'next/navigation'
 import { File } from '@/app/components/File';
 import Table from '@/app/components/Table';
 interface IDataTable {
@@ -11,9 +10,6 @@ interface IDataTable {
 }
 export default function DataTable(props: IDataTable) {
 
-    const router = useRouter()
-
-
 
     const onDelete = async (
         categoryId: string,
@@ -21,7 +17,6 @@ export default function DataTable(props: IDataTable) {
     ) => {
         await deleteFile(fileId);
         await deleteCategory(categoryId);
-        router.refresh();
     };
 
     return (<Table

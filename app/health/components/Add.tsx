@@ -6,11 +6,9 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IHealthSchema } from "@/app/actions/type";
 import { insertHealthList } from "@/app/actions/api";
-import { useRouter } from 'next/navigation';
 
 export default function Add() {
     const [show, setShow] = useState(false);
-    const router = useRouter();
 
     const form = useForm<IHealthSchema>({
         resolver: zodResolver(validators)
@@ -23,7 +21,7 @@ export default function Add() {
         await insertHealthList(fromData);
         form.reset();
         setShow(false);
-        router.refresh();
+        window.location.reload()
     };
 
 
