@@ -1,7 +1,7 @@
 'use client'
 import { ISavingListSchema, ISavingSchema } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
-import { deleteList } from '@/app/actions/db';
+import * as API from '../../actions/api';
 import Table from '@/app/components/Table';
 
 interface IDataTable {
@@ -13,7 +13,7 @@ export default function DataTable(props: IDataTable) {
     const onDelete = async (
         listId: string,
     ) => {
-        await deleteList(listId);
+        await API.deleteSavingList(listId);
         window.location.reload()
     };
 

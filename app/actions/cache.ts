@@ -1,6 +1,5 @@
 'use server';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import path from 'path';
 import fs from 'fs/promises';
 
 export const set = async <T>(key: string, data: T[]) => {
@@ -11,7 +10,7 @@ export const set = async <T>(key: string, data: T[]) => {
 };
 
 export const get = async <T>(key: string) => {
-    try{
+    try {
         const data = await fs.readFile(
             getFileName(key),
             'utf-8'
@@ -24,7 +23,5 @@ export const get = async <T>(key: string) => {
 };
 
 const getFileName = (key: string) => {
-    return dirname(
-        fileURLToPath(import.meta.url)
-    ) + `/${key}.json`;
+    return path.join('cache', `/${key}.json`);
 };

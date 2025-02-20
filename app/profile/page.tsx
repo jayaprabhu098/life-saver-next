@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { getSaving, getSavingList } from "../actions/db";
+import * as API from '../actions/api'
 import Add from "./components/Add";
 import DataTable from "./components/DataTable";
 import { ProcessBar } from "./components/ProcessBar";
@@ -13,9 +13,9 @@ export default function Profile() {
 
     useEffect(() => {
         const fetch = async () => {
-            const savingRes = await getSaving();
+            const savingRes = await API.getSaving();
             if (savingRes) {
-                const listRes = await getSavingList(savingRes.id)
+                const listRes = await API.getSavingList(savingRes.id)
                 setSavingList(listRes);
                 setSaving(savingRes)
             }

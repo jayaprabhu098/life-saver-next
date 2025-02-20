@@ -15,8 +15,10 @@ export default function DataTable(props: IDataTable) {
         categoryId: string,
         fileId: string
     ) => {
-        await API.deleteFile(fileId);
-        await API.deleteCategory(categoryId);
+        await Promise.all([
+            API.deleteFile(fileId),
+            API.deleteCategory(categoryId)
+        ])
         window.location.reload();
     };
 

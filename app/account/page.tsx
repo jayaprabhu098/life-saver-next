@@ -42,7 +42,7 @@ export default function Account() {
         const fetch = async () => {
             if (!type)
                 return;
-            const res = await getCategories(type);
+            const res = await getCategories();
             setCategories(res);
         };
         fetch();

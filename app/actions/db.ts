@@ -3,6 +3,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import * as Type from "./type";
 
 let client: MongoClient | null = null;
+
 export const getDB = async () => {
   if (!client) {
     client = new MongoClient("mongodb+srv://test2022dev:BLy7RyoEcrkYTEYQ@lifesaver.6dpy5.mongodb.net/?retryWrites=true&w=majority&appName=lifesaver");
@@ -47,16 +48,16 @@ export const insertSavingList = async (list: Type.ISavingListSchema): Promise<vo
   await db.collection(Type.TableName.savingList).insertOne(list);
 };
 
-export const getSavingList = async (savingId: string): Promise<Type.ISavingListSchema[]> => {
+export const getSavingList = async (): Promise<Type.ISavingListSchema[]> => {
   const db = await getDB();
   const list = await db.collection(Type.TableName.savingList)
-    .find<Type.ISavingListSchema>({ savingId })
+    .find<Type.ISavingListSchema>({  })
     .sort('createdAt', -1)
     .toArray();
   return documentIdFormatter(list);
 };
 
-export const deleteList = async (id: string): Promise<void> => {
+export const deleteSavingList = async (id: string): Promise<void> => {
   const db = await getDB();
   await db.collection(Type.TableName.savingList).deleteOne({ _id: new ObjectId(id) });
 };

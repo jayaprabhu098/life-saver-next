@@ -5,7 +5,7 @@ import * as zod from 'zod';
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { ISavingListSchema, ISavingSchema } from "@/app/actions/type";
-import { insertSavingList } from "@/app/actions/db";
+import * as API from "../../actions/api";
 
 interface ISave {
     saving: ISavingSchema;
@@ -22,7 +22,7 @@ export default function Add(props: ISave) {
         fromData.createdAt = new Date();
         fromData.amount = Number(fromData.amount);
         fromData.savingId = props.saving.id;
-        await insertSavingList(fromData);
+        await API.insertSavingList(fromData);
         form.reset();
         setShow(false);
         window.location.reload()

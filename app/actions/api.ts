@@ -117,6 +117,51 @@ export const insertHealth = async (
     return res;
 };
 
+export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
+    let [saving] = await cache.get<Type.ISavingSchema | null>(Type.TableName.saving);
+    if (!saving) {
+        saving = await setSavingCache();
+    }
+    return saving;
+};
+
+const setSavingCache = async () => {
+    const savings = await db.getSaving();
+    await cache.set<Type.ISavingSchema | null>(Type.TableName.health, [savings]);
+    return savings;
+};
+
+export const updateSaving = async (saving: Type.ISavingSchema): Promise<void> => {
+  db.updateSaving(saving);
+  setSavingCache()
+};
+
+export const getSavingList = async (savingId: string): Promise<Type.ISavingListSchema[]> => {
+    let savingList = await cache.get<Type.ISavingListSchema>(Type.TableName.saving);
+    if (!savingList.length) {
+        savingList = await setSavingListCache();
+    }
+    savingList = savingList.filter((saving) => saving.savingId == savingId)
+    return savingList;
+};
+
+const setSavingListCache = async () => {
+    const savings = await db.getSavingList();
+    await cache.set<Type.ISavingListSchema>(Type.TableName.health, savings);
+    return savings;
+};
+
+export const insertSavingList = async (list: Type.ISavingListSchema): Promise<void> => {
+    await db.insertSavingList(list)
+    setSavingListCache();
+};
+
+export const deleteSavingList = async (id: string): Promise<void> => {
+    await db.deleteSavingList(id)
+    setSavingListCache();
+};
+
+
 const checkIsSameMonth = (
     startDate: Date, endDate: Date
 ) => {
