@@ -23,5 +23,5 @@ export const get = async <T>(key: string) => {
 };
 
 const getFileName = (key: string) => {
-    return path.join('cache', `/${key}.json`);
+    return path.join(`/${key}.json`);
 };
