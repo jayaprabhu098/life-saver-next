@@ -1,9 +1,9 @@
-'use client'
-import { deleteCategory, deleteFile } from '@/app/actions/api';
+'use client';
 import { ICategorySchema, IFilesSchema } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
 import { File } from '@/app/components/File';
 import Table from '@/app/components/Table';
+import * as API from '@/app/actions/api';
 interface IDataTable {
     categories: ICategorySchema[];
     files: IFilesSchema[];
@@ -15,8 +15,9 @@ export default function DataTable(props: IDataTable) {
         categoryId: string,
         fileId: string
     ) => {
-        await deleteFile(fileId);
-        await deleteCategory(categoryId);
+        await API.deleteFile(fileId);
+        await API.deleteCategory(categoryId);
+        window.location.reload();
     };
 
     return (<Table
@@ -39,5 +40,5 @@ export default function DataTable(props: IDataTable) {
                 ><FaGlassWater /></button>
             }
         ]}
-    />)
+    />);
 }

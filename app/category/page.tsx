@@ -1,11 +1,11 @@
 'use client'
-import { getCategories, getFiles } from "../actions/api";
 import DataTable from "./components/DataTable";
 import Toggle from "../components/Toggle";
 import Add from "./components/Add";
 import { useSearch } from "../components/State";
 import { useEffect, useState } from "react";
 import { ICategorySchema, IFilesSchema } from "../actions/type";
+import * as API from "../actions/api";
 
 export default function Categories() {
 
@@ -15,7 +15,7 @@ export default function Categories() {
 
     useEffect(() => {
         const fetch = async () => {
-            const res = await getFiles();
+            const res = await API.getFiles();
             setFiles(res)
         }
         fetch()
@@ -25,7 +25,7 @@ export default function Categories() {
         const fetch = async () => {
             if (!type)
                 return;
-            const res = await getCategories(type);
+            const res = await API.getCategories(type);
             setCategories(res)
         }
         fetch()

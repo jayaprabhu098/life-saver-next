@@ -2,7 +2,7 @@
 import { IHealthSchema, } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
-import { deleteHealth } from '@/app/actions/api';
+import * as API from "../../actions/api";
 import Table from '@/app/components/Table';
 import dayjs from 'dayjs';
 
@@ -17,7 +17,7 @@ export default function DataTable(props: IDataTable) {
     const onDelete = async (
         healthId: string,
     ) => {
-        await deleteHealth(healthId);
+        await API.deleteHealth(healthId);
         router.refresh();
     };
 

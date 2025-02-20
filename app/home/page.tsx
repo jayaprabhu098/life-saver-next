@@ -1,10 +1,10 @@
 'use client'
 import PieChart from "./components/PieChart";
 import DateFilter from "../components/DateFilter";
-import { getAccountByDate } from "../actions/api";
 import { CategoryType } from "../actions/type";
 import { useEffect, useState } from "react";
 import { useSearch } from "../components/State";
+import * as API from "../actions/api";
 
 export default function Home() {
 
@@ -17,12 +17,11 @@ export default function Home() {
             if (!startDate || !endDate)
                 return;
             const [expenseCount, incomeCount] = await Promise.all([
-                getAccountByDate(CategoryType.debit, startDate, endDate),
-                getAccountByDate(CategoryType.credit, startDate, endDate)
+                API.getAccountSum(CategoryType.debit, startDate, endDate),
+                API.getAccountSum(CategoryType.credit, startDate, endDate)
             ])
             setExpense(expenseCount)
             setIncome(incomeCount)
-
         }
         fetch()
     }, [startDate, endDate])

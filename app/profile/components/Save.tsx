@@ -5,7 +5,7 @@ import * as zod from 'zod';
 import { useState } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { ISavingSchema } from "@/app/actions/type";
-import { updateSaving } from "@/app/actions/api";
+import { updateSaving } from "@/app/actions/db";
 
 interface ISave {
     saving: ISavingSchema

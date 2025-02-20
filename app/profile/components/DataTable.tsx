@@ -1,7 +1,7 @@
 'use client'
 import { ISavingListSchema, ISavingSchema } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
-import { deleteList } from '@/app/actions/api';
+import { deleteList } from '@/app/actions/db';
 import Table from '@/app/components/Table';
 
 interface IDataTable {

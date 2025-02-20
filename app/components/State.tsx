@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { getStartDateAndEndDate } from "./date";
+import { getStartDateAndEndDate } from "../actions/date";
 
 export function useSearch() {
     const [type, setType] = useState(1);

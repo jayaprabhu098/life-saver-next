@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { getSaving, getSavingList } from "../actions/api";
+import { getSaving, getSavingList } from "../actions/db";
 import Add from "./components/Add";
 import DataTable from "./components/DataTable";
 import { ProcessBar } from "./components/ProcessBar";
