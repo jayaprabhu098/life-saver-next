@@ -7,7 +7,7 @@ import { IconDropDown } from "./IconDropDown";
 import dayjs from "dayjs";
 import { IAccountSchema, ICategorySchema, IFilesSchema } from "@/app/actions/type";
 import { FaPlus } from "react-icons/fa";
-import { insertAccount } from "@/app/actions/db";
+import { insertAccount } from "@/app/actions/db.g";
 
 interface IProps {
     type: number;

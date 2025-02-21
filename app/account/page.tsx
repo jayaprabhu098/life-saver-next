@@ -1,5 +1,5 @@
 'use client';
-import { getAccountByDate, getAccounts, getCategories, getFiles } from "../actions/db";
+import { getAccountByDate, getAccounts, getCategories, getFiles } from "../actions/db.g";
 import DataTable from "./components/DataTable";
 import Add from "./components/Add";
 import LineChart from "./components/LineChart";

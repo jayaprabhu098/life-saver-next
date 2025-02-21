@@ -1,5 +1,5 @@
 'use client'
-import { deleteAccount, } from '@/app/actions/db';
+import { deleteAccount, } from '@/app/actions/db.g';
 import { IAccountSchema, ICategorySchema, IFilesSchema, } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
 import dayjs from "dayjs";

@@ -1,43 +1,20 @@
 'use server';
 import { MongoClient, ObjectId } from "mongodb";
-import { createClient, RedisClientType } from 'redis';
 import * as Type from "./type";
-import { v4 as ID } from 'uuid'
-
-let redis: RedisClientType | null = null;
+let client: MongoClient | null = null;
 
 export const getDB = async () => {
-  if (!redis) {
-    redis = createClient({ url: process.env.REDIS_URL });
-    await redis.connect();
+  if (!client) {
+    client = new MongoClient("mongodb+srv://test2022dev:BLy7RyoEcrkYTEYQ@lifesaver.6dpy5.mongodb.net/?retryWrites=true&w=majority&appName=lifesaver");
+    await client.connect();
   }
-  return redis;
-};
-
-export const find = async <T>(key: string) => {
-  const db = await getDB();
-  const data = await db.get(key);
-  const paredData = data ? JSON.parse(data) : [];
-  return paredData as T[];
-};
-
-export const save = async <T>(key: string, value: T[]) => {
-  const db = await getDB();
-  const _value = JSON.stringify(value);
-  const data = await db.set(key, _value);
-  const paredData = data ? JSON.parse(data) : [];
-  return paredData as T[];
+  return client.db("LifeSaver");
 };
 
 export const getFiles = async (): Promise<Type.IFilesSchema[]> => {
-  const files = await find<Type.IFilesSchema>(Type.TableName.file)
-  return files;
-};
-
-export const insertFile = async (files: Type.IFilesSchema[], file: string): Promise<Type.IFilesSchema[]> => {
-  files.
-  const files = await find<Type.IFilesSchema>(Type.TableName.file)
-  return files;
+  const db = await getDB();
+  const files = await db.collection(Type.TableName.file).find<Type.IFilesSchema>({}).sort('createdAt', -1).toArray();
+  return documentIdFormatter(files);
 };
 
 export const deleteFile = async (id: string): Promise<void> => {
@@ -161,4 +138,30 @@ export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
 export const deleteHealth = async (id: string): Promise<void> => {
   const db = await getDB();
   await db.collection(Type.TableName.health).deleteOne({ _id: new ObjectId(id) });
+};
+
+const formatInsert = (list: { id?: string; }): void => {
+  delete list.id;
+};
+
+const documentIdFormatter = <T>(list: T): T => {
+  if (Array.isArray(list)) {
+    return list.map((item) => {
+      const id = String(item['_id']);
+      delete item['_id'];
+      return {
+        ...item,
+        id,
+      };
+    }) as T;
+  } else {
+    if (!list) return list;
+    const _list = list as Record<string, unknown>;
+    const id = String(_list['_id']);
+    delete _list['_id'];
+    return {
+      ...list,
+      id,
+    };
+  }
 };

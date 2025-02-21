@@ -161,12 +161,3 @@ export const deleteSavingList = async (id: string): Promise<void> => {
     setSavingListCache();
 };
 
-
-const checkIsSameMonth = (
-    startDate: Date, endDate: Date
-) => {
-    const dates = getMonthWeekDayDate();
-    return startDate.getTime() == dates.startMonthDate.getTime()
-        && endDate.getTime() == dates.endMonthDate.getTime();
-};
-
