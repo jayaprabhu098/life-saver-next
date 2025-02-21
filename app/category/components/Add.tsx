@@ -6,10 +6,11 @@ import { useState } from "react";
 import Image from 'next/image';
 import { FaPlus } from "react-icons/fa";
 import { ICategorySchema } from "@/app/actions/type";
-import * as API from "@/app/actions/api";
 
 interface IProps {
     type: number;
+    addFile: (file: string) => Promise<string>
+    addCategory: (category: ICategorySchema) => Promise<void>
 }
 export default function Add(props: IProps) {
     const [show, setShow] = useState(false);
@@ -29,7 +30,7 @@ export default function Add(props: IProps) {
                 if (!reader.result)
                     return;
                 const file = reader.result.toString();
-                const id = await API.insertFile(file)
+                const id = await props.addFile(file)
                 form.setValue('icon', id);
                 setFile(file)
             }
@@ -38,13 +39,10 @@ export default function Add(props: IProps) {
 
 
     const onSubmit = async (fromData: ICategorySchema) => {
-        fromData.type = props.type;
-        fromData.createdAt = new Date();
-        await API.insertCategory(fromData);
+        await props.addCategory(fromData);
         form.reset();
         setFile(null);
         setShow(false);
-        window.location.reload()
     };
 
 

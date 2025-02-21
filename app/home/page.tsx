@@ -1,7 +1,7 @@
 'use client'
 import PieChart from "./components/PieChart";
 import DateFilter from "../components/DateFilter";
-import { CategoryType } from "../actions/type";
+import { CategoryType, IAccountSchema } from "../actions/type";
 import { useEffect, useState } from "react";
 import { useSearch } from "../components/State";
 import * as API from "../actions/api";
@@ -11,19 +11,36 @@ export default function Home() {
     const { startDate, endDate, month, year, setMonth, setYear } = useSearch();
     const [expense, setExpense] = useState(0);
     const [income, setIncome] = useState(0);
+    const [accounts, setAccounts] = useState<IAccountSchema[]>([]);
 
     useEffect(() => {
         const fetch = async () => {
-            if (!startDate || !endDate)
-                return;
-            const [expenseCount, incomeCount] = await Promise.all([
-                API.getAccountSum(CategoryType.debit, startDate, endDate),
-                API.getAccountSum(CategoryType.credit, startDate, endDate)
-            ])
-            setExpense(expenseCount)
-            setIncome(incomeCount)
+            const res = await API.getAccounts();
+            setAccounts(res);
         }
         fetch()
+    }, [startDate, endDate]);
+
+    useEffect(() => {
+        if (!startDate || !endDate)
+            return;
+        const count = {
+            expense: 0,
+            income: 0
+        }
+        accounts.forEach(account => {
+            if (account.createdAt.getTime() >= endDate.getTime()
+                && account.createdAt.getTime() <= startDate.getTime()) {
+                if (account.type == CategoryType.credit) {
+                    count.income += account.amount;
+                } else {
+                    count.expense += account.amount;
+
+                }
+            }
+        });
+        setExpense(count.expense)
+        setIncome(count.income)
     }, [startDate, endDate])
 
     return (

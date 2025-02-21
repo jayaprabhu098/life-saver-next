@@ -1,163 +1,112 @@
 'use server';
-import * as cache from "./cache";
-import { getMonthWeekDayDate } from "./date";
-import * as db from "./db";
+import { createClient, RedisClientType } from 'redis';
 import * as Type from "./type";
 
-export const getAccountSum = async (
-    type: Type.CategoryType, startDate: Date, endDate: Date
-) => {
-    let sum = 0;
-    if (checkIsSameMonth(startDate, endDate)) {
-        sum = await db.getAccountByDate(type, startDate, endDate);
-    } else {
-        const accounts = await cache.get<Type.IAccountSchema>(Type.TableName.account);
-        for (const account of accounts) {
-            if (account.type == type && account
-                && startDate.getTime() >= account.createdAt.getTime()
-                && endDate.getTime() <= account.createdAt.getTime()
-            ) {
-                sum += account.amount;
-            }
-        }
-    }
-    return sum;
+let redis: RedisClientType | null = null;
+
+export const getDB = async () => {
+  if (!redis) {
+    redis = createClient({ url: "redis://default:uwA4u8YtlA4gpiJhIhy7mb9hAldCSOlO@redis-19658.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:19658" });
+    await redis.connect();
+  }
+  return redis;
 };
 
-export const getFiles = async (
-
-) => {
-    let files = await cache.get<Type.IFilesSchema>(Type.TableName.file);
-    if (!files.length) {
-        files = await setFileCache();
-    }
-    return files;
+export const find = async <T>(key: string) => {
+  const db = await getDB();
+  const data = await db.get(key);
+  const paredData = data ? JSON.parse(data) : [];
+  return paredData as T[];
 };
 
-const setFileCache = async () => {
-    const files = await db.getFiles();
-    await cache.set<Type.IFilesSchema>(Type.TableName.file, files);
-    return files;
+export const save = async <T>(key: string, value: T[]) => {
+  const db = await getDB();
+  const _value = JSON.stringify(value);
+  await db.set(key, _value);
 };
 
-export const deleteFile = async (
-    id: string
-) => {
-    await db.deleteFile(id);
-    setFileCache();
+export const getFiles = async (): Promise<Type.IFilesSchema[]> => {
+  const files = await find<Type.IFilesSchema>(Type.TableName.file)
+  return files;
 };
 
-export const insertFile = async (
-    file: string
-) => {
-    const res = await db.insertFile(file);
-    setFileCache();
-    return res;
+export const saveFile = async (
+  files: Type.IFilesSchema[],
+): Promise<void> => {
+  await save<Type.IFilesSchema>(Type.TableName.file, files);
+};
+
+export const saveCategory = async (
+  categories: Type.ICategorySchema[]
+): Promise<void> => {
+  await save<Type.ICategorySchema>(Type.TableName.category, categories);
 };
 
 export const getCategories = async (
-    type: Type.CategoryType
-) => {
-    let categories = await cache.get<Type.ICategorySchema>(Type.TableName.category);
-    if (!categories.length) {
-        categories = await setCategoriesCache();
-    }
-    categories = categories.filter((category) => category.type == type);
-    return categories;
+
+): Promise<Type.ICategorySchema[]> => {
+  const categories = await find<Type.ICategorySchema>(Type.TableName.category)
+  return categories;
 };
 
-const setCategoriesCache = async () => {
-    const categories = await db.getCategories();
-    await cache.set<Type.ICategorySchema>(Type.TableName.category, categories);
-    return categories;
+// export const saveHealth = async (
+//   list: Type.IHealthSchema[],
+//   health: Type.IHealthSchema
+// ): Promise<void> => {
+//   const id = ID()
+//   list.push({ ...health, id });
+//   await save<Type.IHealthSchema>(Type.TableName.health, list);
+// };
+
+// export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
+//   const healthList = await find<Type.IHealthSchema>(Type.TableName.health)
+//   return healthList;
+// };
+
+// export const saveAccount = async (
+//   accounts: Type.IAccountSchema[],
+//   account: Type.IAccountSchema
+// ): Promise<void> => {
+//   const id = ID()
+//   accounts.push({ ...account, id });
+//   await save<Type.IAccountSchema>(Type.TableName.account, accounts);
+// };
+
+export const getAccounts = async () => {
+  const accounts = await find<Type.IAccountSchema>(Type.TableName.account)
+  return accounts;
 };
 
-export const deleteCategory = async (
-    id: string
-) => {
-    await db.deleteCategory(id);
-    setCategoriesCache();
-};
+// export const updateSaving = async (saving: Type.ISavingSchema): Promise<void> => {
+//   const db = await getDB();
+//   const id = new ObjectId(saving.id);
+//   formatInsert(saving);
+//   await db.collection(Type.TableName.saving).updateOne({ _id: id }, saving);
+// };
 
-export const insertCategory = async (
-    category: Type.ICategorySchema
-) => {
-    const res = await db.insertCategory(category);
-    setCategoriesCache();
-    return res;
-};
+// export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
+//   const db = await getDB();
+//   const savings = await db.collection(Type.TableName.saving).findOne<Type.ISavingSchema>({});
+//   return documentIdFormatter(savings);
+// };
 
-export const getHealthList = async (
-) => {
-    let healthList = await cache.get<Type.IHealthSchema>(Type.TableName.health);
-    if (!healthList.length) {
-        healthList = await setHealthCache();
-    }
-    return healthList;
-};
+// export const insertSavingList = async (list: Type.ISavingListSchema): Promise<void> => {
+//   const db = await getDB();
+//   formatInsert(list);
+//   await db.collection(Type.TableName.savingList).insertOne(list);
+// };
 
-const setHealthCache = async () => {
-    const healthList = await db.getHealthList();
-    await cache.set<Type.IHealthSchema>(Type.TableName.health, healthList);
-    return healthList;
-};
+// export const getSavingList = async (): Promise<Type.ISavingListSchema[]> => {
+//   const db = await getDB();
+//   const list = await db.collection(Type.TableName.savingList)
+//     .find<Type.ISavingListSchema>({})
+//     .sort('createdAt', -1)
+//     .toArray();
+//   return documentIdFormatter(list);
+// };
 
-export const deleteHealth = async (
-    id: string
-) => {
-    await db.deleteHealth(id);
-    setHealthCache();
-};
-
-export const insertHealth = async (
-    health: Type.IHealthSchema
-) => {
-    const res = await db.insertHealthList(health);
-    setHealthCache();
-    return res;
-};
-
-export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
-    let [saving] = await cache.get<Type.ISavingSchema | null>(Type.TableName.saving);
-    if (!saving) {
-        saving = await setSavingCache();
-    }
-    return saving;
-};
-
-const setSavingCache = async () => {
-    const savings = await db.getSaving();
-    await cache.set<Type.ISavingSchema | null>(Type.TableName.health, [savings]);
-    return savings;
-};
-
-export const updateSaving = async (saving: Type.ISavingSchema): Promise<void> => {
-  db.updateSaving(saving);
-  setSavingCache()
-};
-
-export const getSavingList = async (savingId: string): Promise<Type.ISavingListSchema[]> => {
-    let savingList = await cache.get<Type.ISavingListSchema>(Type.TableName.saving);
-    if (!savingList.length) {
-        savingList = await setSavingListCache();
-    }
-    savingList = savingList.filter((saving) => saving.savingId == savingId)
-    return savingList;
-};
-
-const setSavingListCache = async () => {
-    const savings = await db.getSavingList();
-    await cache.set<Type.ISavingListSchema>(Type.TableName.health, savings);
-    return savings;
-};
-
-export const insertSavingList = async (list: Type.ISavingListSchema): Promise<void> => {
-    await db.insertSavingList(list)
-    setSavingListCache();
-};
-
-export const deleteSavingList = async (id: string): Promise<void> => {
-    await db.deleteSavingList(id)
-    setSavingListCache();
-};
+// export const deleteSavingList = async (id: string): Promise<void> => {
+//   const db = await getDB();
+//   await db.collection(Type.TableName.savingList).deleteOne({ _id: new ObjectId(id) });
+// };
 
