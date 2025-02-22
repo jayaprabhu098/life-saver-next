@@ -5,9 +5,12 @@ import * as zod from 'zod';
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IHealthSchema } from "@/app/actions/type";
-import * as API from "../../actions/api";
 
-export default function Add() {
+interface IAdd {
+    addHealth: (health: IHealthSchema) => Promise<void>
+}
+
+export default function Add(props: IAdd) {
     const [show, setShow] = useState(false);
 
     const form = useForm<IHealthSchema>({
@@ -16,12 +19,9 @@ export default function Add() {
 
 
     const onSubmit = async (fromData: IHealthSchema) => {
-        fromData.createdAt = new Date();
-        fromData.weight = Number(fromData.weight);
-        await API.insertHealth(fromData);
+        await props.addHealth(fromData)
         form.reset();
         setShow(false);
-        window.location.reload()
     };
 
 

@@ -4,11 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from 'zod';
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { ISavingListSchema, ISavingSchema } from "@/app/actions/type";
-import * as API from "../../actions/api";
+import { ISavingListSchema } from "@/app/actions/type";
 
 interface ISave {
-    saving: ISavingSchema;
+    addSaveList: (list: ISavingListSchema) => Promise<void>
 }
 export default function Add(props: ISave) {
     const [show, setShow] = useState(false);
@@ -19,13 +18,9 @@ export default function Add(props: ISave) {
 
 
     const onSubmit = async (fromData: ISavingListSchema) => {
-        fromData.createdAt = new Date();
-        fromData.amount = Number(fromData.amount);
-        fromData.savingId = props.saving.id;
-        await API.insertSavingList(fromData);
+        await props.addSaveList(fromData);
         form.reset();
         setShow(false);
-        window.location.reload()
     };
 
 

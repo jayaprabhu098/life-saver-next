@@ -49,64 +49,42 @@ export const getCategories = async (
   return categories;
 };
 
-// export const saveHealth = async (
-//   list: Type.IHealthSchema[],
-//   health: Type.IHealthSchema
-// ): Promise<void> => {
-//   const id = ID()
-//   list.push({ ...health, id });
-//   await save<Type.IHealthSchema>(Type.TableName.health, list);
-// };
+export const saveHealth = async (
+  list: Type.IHealthSchema[]
+): Promise<void> => {
+  await save<Type.IHealthSchema>(Type.TableName.health, list);
+};
 
-// export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
-//   const healthList = await find<Type.IHealthSchema>(Type.TableName.health)
-//   return healthList;
-// };
+export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
+  const healthList = await find<Type.IHealthSchema>(Type.TableName.health)
+  return healthList;
+};
 
-// export const saveAccount = async (
-//   accounts: Type.IAccountSchema[],
-//   account: Type.IAccountSchema
-// ): Promise<void> => {
-//   const id = ID()
-//   accounts.push({ ...account, id });
-//   await save<Type.IAccountSchema>(Type.TableName.account, accounts);
-// };
+export const saveAccount = async (
+  accounts: Type.IAccountSchema[]
+): Promise<void> => {
+  await save<Type.IAccountSchema>(Type.TableName.account, accounts);
+};
 
 export const getAccounts = async () => {
   const accounts = await find<Type.IAccountSchema>(Type.TableName.account)
   return accounts;
 };
 
-// export const updateSaving = async (saving: Type.ISavingSchema): Promise<void> => {
-//   const db = await getDB();
-//   const id = new ObjectId(saving.id);
-//   formatInsert(saving);
-//   await db.collection(Type.TableName.saving).updateOne({ _id: id }, saving);
-// };
+export const updateSaving = async (saving: Type.ISavingSchema): Promise<void> => {
+  await save<Type.ISavingSchema>(Type.TableName.saving, [saving]);
+};
 
-// export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
-//   const db = await getDB();
-//   const savings = await db.collection(Type.TableName.saving).findOne<Type.ISavingSchema>({});
-//   return documentIdFormatter(savings);
-// };
+export const getSaving = async (): Promise<Type.ISavingSchema | null> => {
+  const [saving] = await find<Type.ISavingSchema>(Type.TableName.saving)
+  return saving;
+};
 
-// export const insertSavingList = async (list: Type.ISavingListSchema): Promise<void> => {
-//   const db = await getDB();
-//   formatInsert(list);
-//   await db.collection(Type.TableName.savingList).insertOne(list);
-// };
+export const saveSavingList = async (list: Type.ISavingListSchema[]): Promise<void> => {
+  await save<Type.ISavingListSchema>(Type.TableName.savingList, list);
+};
 
-// export const getSavingList = async (): Promise<Type.ISavingListSchema[]> => {
-//   const db = await getDB();
-//   const list = await db.collection(Type.TableName.savingList)
-//     .find<Type.ISavingListSchema>({})
-//     .sort('createdAt', -1)
-//     .toArray();
-//   return documentIdFormatter(list);
-// };
-
-// export const deleteSavingList = async (id: string): Promise<void> => {
-//   const db = await getDB();
-//   await db.collection(Type.TableName.savingList).deleteOne({ _id: new ObjectId(id) });
-// };
-
+export const getSavingList = async (): Promise<Type.ISavingListSchema[]> => {
+  const savingList = await find<Type.ISavingListSchema>(Type.TableName.savingList)
+  return savingList;
+};

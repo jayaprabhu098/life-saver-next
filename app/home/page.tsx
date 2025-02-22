@@ -29,8 +29,9 @@ export default function Home() {
             income: 0
         }
         accounts.forEach(account => {
-            if (account.createdAt.getTime() >= endDate.getTime()
-                && account.createdAt.getTime() <= startDate.getTime()) {
+            account.createdAt = new Date(account.createdAt)
+            if (account.createdAt.getTime() >= startDate.getTime()
+                && account.createdAt.getTime() <= endDate.getTime()) {
                 if (account.type == CategoryType.credit) {
                     count.income += account.amount;
                 } else {
@@ -41,7 +42,7 @@ export default function Home() {
         });
         setExpense(count.expense)
         setIncome(count.income)
-    }, [startDate, endDate])
+    }, [startDate, endDate, accounts])
 
     return (
         <section className="flex flex-col justify-center items-center">

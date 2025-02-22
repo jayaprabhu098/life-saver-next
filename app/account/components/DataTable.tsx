@@ -1,5 +1,4 @@
 'use client'
-import { deleteAccount, } from '@/app/actions/db.g';
 import { IAccountSchema, ICategorySchema, IFilesSchema, } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
 import dayjs from "dayjs";
@@ -10,15 +9,9 @@ interface IDataTable {
     accounts: IAccountSchema[];
     categories: ICategorySchema[];
     files: IFilesSchema[]
+    onDelete: (accountId: string) => Promise<void>
 }
 export default function DataTable(props: IDataTable) {
-
-    const onDelete = async (
-        accountId: string,
-    ) => {
-        await deleteAccount(accountId);
-        window.location.reload()
-    };
 
     const findCategory = (id: string) => {
         const fCategory = props.categories.find((category => category.id === id));
@@ -49,7 +42,7 @@ export default function DataTable(props: IDataTable) {
                 name: "Action",
                 cell: (row) => <button
                     onClick={() =>
-                        onDelete(row.id)
+                        props.onDelete(row.id)
                     }
                 ><FaGlassWater /></button>
             }

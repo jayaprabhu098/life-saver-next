@@ -1,22 +1,16 @@
 'use client'
 import { IHealthSchema, } from '@/app/actions/type';
 import { FaGlassWater } from 'react-icons/fa6';
-import * as API from "../../actions/api";
 import Table from '@/app/components/Table';
 import dayjs from 'dayjs';
 
 const needWight = 70;
 interface IDataTable {
-    list: IHealthSchema[]
+    list: IHealthSchema[];
+    onDelete: (healthId: string) => Promise<void>
 }
 export default function DataTable(props: IDataTable) {
 
-    const onDelete = async (
-        healthId: string,
-    ) => {
-        await API.deleteHealth(healthId);
-        window.location.reload()
-    };
 
     return (<Table
         theme="lifesaver"
@@ -38,7 +32,7 @@ export default function DataTable(props: IDataTable) {
                 name: "Action",
                 cell: (row) => <button
                     onClick={() =>
-                        onDelete(row.id)
+                        props.onDelete(row.id)
                     }
                 ><FaGlassWater /></button>
             }

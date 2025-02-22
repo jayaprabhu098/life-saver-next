@@ -7,12 +7,12 @@ import { IconDropDown } from "./IconDropDown";
 import dayjs from "dayjs";
 import { IAccountSchema, ICategorySchema, IFilesSchema } from "@/app/actions/type";
 import { FaPlus } from "react-icons/fa";
-import { insertAccount } from "@/app/actions/db.g";
 
 interface IProps {
     type: number;
     categories: ICategorySchema[];
-    files: IFilesSchema[]
+    files: IFilesSchema[];
+    addAccount: (category: IAccountSchema) => Promise<void>
 }
 export default function Add(props: IProps) {
 
@@ -28,12 +28,9 @@ export default function Add(props: IProps) {
     const onSubmit = async (fromData: IAccountSchema) => {
         if (fromData) {
             fromData.amount = Number(fromData.amount)
-            fromData.createdAt = dayjs(fromData.createdAt).toDate()
-            fromData.type = props.type;
-            await insertAccount(fromData);
+            await props.addAccount(fromData);
             form.reset();
             setShow(false);
-            window.location.reload() 
         }
     };
 

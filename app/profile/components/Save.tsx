@@ -5,10 +5,10 @@ import * as zod from 'zod';
 import { useState } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { ISavingSchema } from "@/app/actions/type";
-import * as API from "@/app/actions/api";
 
 interface ISave {
     saving: ISavingSchema
+    updateSaving:  (list: ISavingSchema) => Promise<void>
 }
 export default function Save(props: ISave) {
     const [show, setShow] = useState(false);
@@ -22,11 +22,9 @@ export default function Save(props: ISave) {
 
 
     const onSubmit = async (fromData: ISavingSchema) => {
-        fromData.target = Number(fromData.target);
-        await API.updateSaving(fromData)
+        await props.updateSaving(fromData)
         form.reset();
         setShow(false)
-        window.location.reload()
     };
 
 
