@@ -27,6 +27,7 @@ export const save = async <T>(key: string, value: T[]) => {
 
 export const getFiles = async (): Promise<Type.IFilesSchema[]> => {
   const files = await find<Type.IFilesSchema>(Type.TableName.file)
+  sortColumn(files)
   return files;
 };
 
@@ -46,6 +47,7 @@ export const getCategories = async (
 
 ): Promise<Type.ICategorySchema[]> => {
   const categories = await find<Type.ICategorySchema>(Type.TableName.category)
+  sortColumn(categories)
   return categories;
 };
 
@@ -57,6 +59,7 @@ export const saveHealth = async (
 
 export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
   const healthList = await find<Type.IHealthSchema>(Type.TableName.health)
+  sortColumn(healthList)
   return healthList;
 };
 
@@ -68,6 +71,7 @@ export const saveAccount = async (
 
 export const getAccounts = async () => {
   const accounts = await find<Type.IAccountSchema>(Type.TableName.account)
+  sortColumn(accounts)
   return accounts;
 };
 
@@ -86,5 +90,16 @@ export const saveSavingList = async (list: Type.ISavingListSchema[]): Promise<vo
 
 export const getSavingList = async (): Promise<Type.ISavingListSchema[]> => {
   const savingList = await find<Type.ISavingListSchema>(Type.TableName.savingList)
+  sortColumn(savingList)
   return savingList;
 };
+
+const sortColumn = (list: Array<{ createdAt: Date }>) => {
+  list.sort((a, b) => {
+    a.createdAt = new Date(a.createdAt)
+    b.createdAt = new Date(b.createdAt)
+    return a.createdAt.getTime() < b.createdAt.getTime()
+      ? 1 : -1
+  })
+
+}

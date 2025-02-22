@@ -35,7 +35,6 @@ export default function LineChart(
         total: number;
         fill: string;
     }[] = [];
-
     props.accounts.forEach(list => {
         const date = dayJs(list.createdAt).format("D");
         const index = data.findIndex(d =>
