@@ -34,6 +34,12 @@ export function Menu() {
                     <FaChartSimple />
                 </Link>
                 <Link
+                    className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/chart')}`}
+                    href='/chart'
+                >
+                    <FaChartSimple />
+                </Link>
+                <Link
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/health')}`}
                     href='/health?'
                 >
