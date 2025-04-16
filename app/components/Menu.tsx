@@ -1,9 +1,7 @@
 'use client';
-import { FaHome } from "react-icons/fa";
 import { AiOutlineAppstore } from "react-icons/ai";
-import { FaChartSimple } from "react-icons/fa6";
-import { FaUser } from "react-icons/fa";
-import { FaHeartCircleCheck } from "react-icons/fa6";
+import { FaChartSimple, FaHeartCircleCheck } from "react-icons/fa6";
+import { FaUser, FaChartPie, FaHome } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 
@@ -37,7 +35,7 @@ export function Menu() {
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/chart')}`}
                     href='/chart'
                 >
-                    <FaChartSimple />
+                    <FaChartPie />
                 </Link>
                 <Link
                     className={`rounded w-12 h-8 pl-4 pt-2 cursor-pointer ${getColor('/health')}`}
