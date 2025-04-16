@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import { IAccountSchema, ICategorySchema, IFilesSchema } from "../actions/type";
+import { IAccountSchema, ICategorySchema } from "../actions/type";
 import * as API from "../actions/api";
 import { useSearch } from "../components/State";
 import DateFilter from "../components/DateFilter";
@@ -9,7 +9,6 @@ import PieChart from "./components/PieChart";
 
 export default function Chart() {
     const { type, startDate, endDate, setType, month, year, setMonth, setYear } = useSearch();
-    const [files, setFiles] = useState<IFilesSchema[]>([]);
     const [categories, setCategories] = useState<ICategorySchema[]>([]);
     const [accounts, setAccounts] = useState<IAccountSchema[]>([]);
     const [typeAccounts, setTypeAccounts] = useState<IAccountSchema[]>([]);
@@ -17,12 +16,10 @@ export default function Chart() {
 
     useEffect(() => {
         const fetch = async () => {
-            const [fileRes, categoryRes, accountRes] = await Promise.all([
-                API.getFiles(),
+            const [categoryRes, accountRes] = await Promise.all([
                 API.getCategories(),
                 API.getAccounts()
             ])
-            setFiles(fileRes);
             setCategories(categoryRes);
             setAccounts(accountRes);
         }
