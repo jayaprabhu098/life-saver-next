@@ -32,19 +32,36 @@ export default function PieChart(
     })
 
     return (
-    <Pie
-        height="300px"
-        data={{
-            labels: labels,
-            datasets: [
-                {
-                    datalabels: {
-                        color: '#000000'
+        <Pie
+            plugins={[ChartDataLabels]}
+            data={{
+                labels: labels,
+                datasets: [
+                    {
+                        datalabels: {
+                            color: '#000000'
+                        },
+                        backgroundColor: [
+                            'rgb(221, 233, 91)',
+                            'rgba(75, 192, 192, 1)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        data: data,
+                        borderWidth: 1,
                     },
-                    data: data,
-                    borderWidth: 1,
-                },
-            ],
-        }}
-    />)
+                ],
+            }}
+            options={{
+                plugins: {
+                    datalabels: {
+                      display: true,
+                      font: {
+                        size: 16
+                      }
+                    }
+                }
+            }}
+        />)
 }
