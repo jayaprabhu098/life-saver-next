@@ -6,7 +6,7 @@ let redis: RedisClientType | null = null;
 
 export const getDB = async () => {
   if (!redis) {
-    redis = createClient({ url: "redis://default:uwA4u8YtlA4gpiJhIhy7mb9hAldCSOlO@redis-19658.crce179.ap-south-1-1.ec2.redns.redis-cloud.com:19658" });
+    redis = createClient({ url: "redis://default:COrdXS3PDg3Q4SBasqlLg7vd6da0Kfzq@redis-15119.c301.ap-south-1-1.ec2.redns.redis-cloud.com:15119" });
     await redis.connect();
   }
   return redis;
