@@ -6,9 +6,10 @@ import { useSearch } from "../components/State";
 import DateFilter from "../components/DateFilter";
 import Toggle from "../components/Toggle";
 import PieChart from "./components/PieChart";
+import User from "../components/User";
 
 export default function Chart() {
-  const { type, startDate, endDate, setType, month, year, setMonth, setYear } =
+  const { type, startDate, endDate, setType, month, year, setMonth, setYear, user, setUser } =
     useSearch();
   const [categories, setCategories] = useState<ICategorySchema[]>([]);
   const [accounts, setAccounts] = useState<IAccountSchema[]>([]);
@@ -19,13 +20,13 @@ export default function Chart() {
     const fetch = async () => {
       const [categoryRes, accountRes] = await Promise.all([
         API.getCategories(),
-        API.getAccounts(),
+        API.getAccounts(user),
       ]);
       setCategories(categoryRes);
       setAccounts(accountRes);
     };
     fetch();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (!type || !startDate || !endDate) return;
@@ -44,6 +45,9 @@ export default function Chart() {
 
   return (
     <section className="flex flex-col">
+      <div className="self-end mt-5">
+        <User user={user} setUser={setUser}/>
+      </div>
       <div className="self-end mt-5">
         <DateFilter
           month={month}

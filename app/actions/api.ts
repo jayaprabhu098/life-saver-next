@@ -64,13 +64,14 @@ export const getHealthList = async (): Promise<Type.IHealthSchema[]> => {
 };
 
 export const saveAccount = async (
-  accounts: Type.IAccountSchema[]
+  accounts: Type.IAccountSchema[],
+  user: number
 ): Promise<void> => {
-  await save<Type.IAccountSchema>(Type.TableName.account, accounts);
+  await save<Type.IAccountSchema>(user == 0 ? Type.TableName.account : `${Type.TableName.account}_${user}`, accounts);
 };
 
-export const getAccounts = async () => {
-  const accounts = await find<Type.IAccountSchema>(Type.TableName.account)
+export const getAccounts = async (user: number) => {
+  const accounts = await find<Type.IAccountSchema>(user == 0 ? Type.TableName.account : `${Type.TableName.account}_${user}`)
   sortColumn(accounts)
   return accounts;
 };

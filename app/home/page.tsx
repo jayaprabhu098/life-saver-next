@@ -5,21 +5,24 @@ import { CategoryType, IAccountSchema } from "../actions/type";
 import { useEffect, useState } from "react";
 import { useSearch } from "../components/State";
 import * as API from "../actions/api";
+import User from "../components/User";
 
 export default function Home() {
 
-    const { startDate, endDate, month, year, setMonth, setYear } = useSearch();
+    const { startDate, endDate, month, year, setMonth, setYear, user, setUser } = useSearch();
     const [expense, setExpense] = useState(0);
     const [income, setIncome] = useState(0);
     const [accounts, setAccounts] = useState<IAccountSchema[]>([]);
 
+
+
     useEffect(() => {
         const fetch = async () => {
-            const res = await API.getAccounts();
+            const res = await API.getAccounts(user);
             setAccounts(res);
         }
         fetch()
-    }, [startDate, endDate]);
+    }, [startDate, endDate, user]);
 
     useEffect(() => {
         if (!startDate || !endDate)
@@ -47,6 +50,9 @@ export default function Home() {
     return (
         <section className="flex flex-col justify-center items-center">
 
+            <div className="self-end mt-5">
+                <User user={user} setUser={setUser}/>
+            </div>
             <div className="self-end mt-5">
                 <DateFilter month={month} year={year} setMonth={setMonth} setYear={setYear} />
             </div>

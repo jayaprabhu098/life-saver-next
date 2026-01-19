@@ -9,6 +9,7 @@ export function useSearch() {
     const [year, setYear] = useState(dayjs().get("year"));
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
+    const [user, setUser] = useState(0)
 
 
     useEffect(() => {
@@ -27,7 +28,9 @@ export function useSearch() {
         month,
         setMonth,
         year,
-        setYear
+        setYear,
+        user,
+        setUser
     }
 
 }

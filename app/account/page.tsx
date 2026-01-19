@@ -11,9 +11,10 @@ import { useEffect, useState } from "react";
 import { IAccountSchema, ICategorySchema, IFilesSchema } from "../actions/type";
 import * as API from "../actions/api";
 import { v4 as ID } from 'uuid'
+import User from "../components/User";
 
 export default function Account() {
-    const { type, startDate, endDate, setType, month, year, setMonth, setYear } = useSearch();
+    const { type, startDate, endDate, setType, month, year, setMonth, setYear, user, setUser } = useSearch();
     const [count, setCount] = useState({
         day: 0,
         month: 0,
@@ -30,14 +31,14 @@ export default function Account() {
             const [fileRes, categoryRes, accountRes] = await Promise.all([
                 API.getFiles(),
                 API.getCategories(),
-                API.getAccounts()
+                API.getAccounts(user)
             ])
             setFiles(fileRes);
             setCategories(categoryRes);
             setAccounts(accountRes);
         }
         fetch()
-    }, [])
+    }, [user])
 
     useEffect(() => {
         const dates = getMonthWeekDayDate();
@@ -88,7 +89,7 @@ export default function Account() {
         account.id = ID();
         const _accounts = [...accounts, account]
         setAccounts(_accounts);
-        await API.saveAccount(_accounts);
+        await API.saveAccount(_accounts, user);
     }
 
     const onDelete = async (
@@ -98,12 +99,15 @@ export default function Account() {
             account.id != accountId
         )
         setAccounts(_accounts);
-        await API.saveAccount(_accounts);
+        await API.saveAccount(_accounts, user);
     }
 
 
     return (
         <section className="flex flex-col">
+            <div className="self-end mt-5">
+                <User user={user} setUser={setUser}/>
+            </div>
             <div className="self-end mt-5">
                 <DateFilter month={month} year={year} setMonth={setMonth} setYear={setYear} />
             </div>
