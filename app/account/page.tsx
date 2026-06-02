@@ -104,18 +104,49 @@ export default function Account() {
 
 
     return (
-        <section className="flex flex-col">
-            <div className="self-end mt-5">
-                <User user={user} setUser={setUser}/>
+        <section className="w-full max-w-4xl mx-auto px-4 py-8 flex flex-col">
+            {/* Header controls block */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-6 mb-8">
+                <div>
+                    <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-700 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-400 bg-clip-text text-transparent uppercase">
+                        Transactions Ledger
+                    </h1>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                        Detailed overview and creation of your income and expenses.
+                    </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                    <User user={user} setUser={setUser}/>
+                    <DateFilter month={month} year={year} setMonth={setMonth} setYear={setYear} />
+                </div>
             </div>
-            <div className="self-end mt-5">
-                <DateFilter month={month} year={year} setMonth={setMonth} setYear={setYear} />
+
+            {/* Main Toggle and Add Action Bar */}
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl px-6 py-2 shadow-sm mb-8">
+                <div className="flex-1">
+                    <Toggle type={type} setType={setType} />
+                </div>
+                <div>
+                    <Add type={type} categories={typeCategories} files={files} addAccount={addAccount} />
+                </div>
             </div>
-            <Add type={type} categories={typeCategories} files={files} addAccount={addAccount} />
-            <Toggle type={type} setType={setType} />
-            <LineChart accounts={typeAccounts} />
-            <DataCount day={count.day} month={count.month} week={count.week} />
-            <DataTable accounts={typeAccounts} categories={categories} files={files} onDelete={onDelete} />
+
+            {/* Chart Area */}
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm mb-8">
+                <p className="text-lg font-bold text-zinc-800 dark:text-zinc-200 mb-4">Daily Trend</p>
+                <LineChart accounts={typeAccounts} />
+            </div>
+
+            {/* Counts Section */}
+            <div className="mb-8">
+                <DataCount day={count.day} month={count.month} week={count.week} />
+            </div>
+
+            {/* Detailed Table */}
+            <div className="mb-8">
+                <p className="text-lg font-bold text-zinc-800 dark:text-zinc-200 mb-2">Transaction History</p>
+                <DataTable accounts={typeAccounts} categories={categories} files={files} onDelete={onDelete} />
+            </div>
         </section>
     );
 }

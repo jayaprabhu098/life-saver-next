@@ -31,6 +31,21 @@ export default function PieChart(
         }
     })
 
+    const chartColors = [
+        '#6366f1', // Indigo
+        '#10b981', // Emerald
+        '#f59e0b', // Amber
+        '#ec4899', // Pink
+        '#06b6d4', // Cyan
+        '#f43f5e', // Rose
+        '#8b5cf6', // Violet
+        '#14b8a6', // Teal
+        '#f97316', // Orange
+        '#a855f7', // Purple
+        '#0ea5e9', // Sky
+        '#d946ef', // Fuchsia
+    ];
+
     return (
         <Pie
             plugins={[ChartDataLabels]}
@@ -39,17 +54,16 @@ export default function PieChart(
                 datasets: [
                     {
                         datalabels: {
-                            color: '#000000'
+                            color: '#ffffff',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
                         },
-                        backgroundColor: [
-                            'rgb(221, 233, 91)',
-                            'rgba(75, 192, 192, 1)',
-                        ],
-                        borderColor: [
-                            'rgba(54, 162, 235, 1)',
-                        ],
+                        backgroundColor: chartColors.slice(0, labels.length),
+                        borderColor: 'transparent',
                         data: data,
-                        borderWidth: 1,
+                        borderWidth: 0,
                     },
                 ],
             }}
@@ -58,8 +72,16 @@ export default function PieChart(
                     datalabels: {
                       display: true,
                       font: {
-                        size: 16
+                        size: 13
                       }
+                    },
+                    legend: {
+                        labels: {
+                            color: 'var(--foreground)',
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
                     }
                 }
             }}

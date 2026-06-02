@@ -36,18 +36,18 @@ export default function Add(props: IProps) {
 
     return (
         <>
-            {show && <section
-                className="inset-0 z-[999] h-screen w-screen bg-black bg-opacity-40 backdrop-blur-sm transition-opacity duration-300 fixed"
-            >
-                <div className="flex flex-col justify-center items-center h-screen w-screen">
-                    <div className="w-60 h-[27rem] bg-blue-400 rounded-md p-5">
-                        <div
-                            className="text-xl font-bold mb-5 text-center"
-                        >Add {props.type == 1 ? "Expenses" : "Income"} List</div>
+            {show && (
+                <section className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300 p-4">
+                    <div className="w-full max-w-sm bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+                        <div className="text-xl font-bold mb-6 text-center text-zinc-900 dark:text-white uppercase tracking-wide">
+                            Add {props.type == 1 ? "Expense" : "Income"} Entry
+                        </div>
 
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <div className="h-20">
-                                <div className="w-full">Category</div>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                                    Category
+                                </label>
                                 <Controller
                                     name="category"
                                     control={form.control}
@@ -58,71 +58,92 @@ export default function Add(props: IProps) {
                                             value={field.value}
                                             files={props.files}
                                             categories={props.categories}
-                                            className="w-full rounded border-black border-2 text-black"
+                                            className="w-full text-zinc-900 dark:text-white"
                                         />
                                     )}
                                 />
-                                {form.formState.errors.category
-                                    && <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.category.message}</p>}
+                                {form.formState.errors.category && (
+                                    <p className="text-red-500 text-xs mt-1 font-medium">
+                                        {form.formState.errors.category.message}
+                                    </p>
+                                )}
                             </div>
-                            <div className="h-20">
-                                <div className="w-full">Date</div>
-                                <input {...form.register('createdAt')}
-                                    type='datetime-local'
+
+                            <div>
+                                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                                    Date & Time
+                                </label>
+                                <input 
+                                    {...form.register('createdAt')}
+                                    type="datetime-local"
                                     placeholder="dd-mm-yyyy"
-                                    className="w-full rounded border-black border-2 pl-2 pr-2 text-black"
+                                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-zinc-900 dark:text-white"
                                 />
-                                {form.formState.errors.createdAt
-                                    && <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.createdAt.message}</p>}
+                                {form.formState.errors.createdAt && (
+                                    <p className="text-red-500 text-xs mt-1 font-medium">
+                                        {form.formState.errors.createdAt.message}
+                                    </p>
+                                )}
                             </div>
-                            <div className="h-20">
-                                <div className="w-full">comment</div>
+
+                            <div>
+                                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                                    Comment
+                                </label>
                                 <input
                                     {...form.register('comment')}
-                                    className="w-full rounded border-black border-2 pl-2 pr-2 text-black"
+                                    placeholder="Optional description"
+                                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-zinc-900 dark:text-white"
                                 />
-                                {form.formState.errors.comment
-                                    && <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.comment.message}</p>}
+                                {form.formState.errors.comment && (
+                                    <p className="text-red-500 text-xs mt-1 font-medium">
+                                        {form.formState.errors.comment.message}
+                                    </p>
+                                )}
                             </div>
-                            <div className="h-20">
-                                <div className="w-full">Amount</div>
+
+                            <div>
+                                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                                    Amount (₹)
+                                </label>
                                 <input
                                     {...form.register('amount')}
                                     type="number"
-                                    className="w-full rounded border-black border-2 pl-2 pr-2 text-black"
+                                    placeholder="0.00"
+                                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-zinc-900 dark:text-white"
                                 />
-                                {form.formState.errors.amount
-                                    &&
-                                    <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.amount.message}</p>
-                                }
+                                {form.formState.errors.amount && (
+                                    <p className="text-red-500 text-xs mt-1 font-medium">
+                                        {form.formState.errors.amount.message}
+                                    </p>
+                                )}
                             </div>
-                            <div className="h-5 flex justify-end items-center">
-                                <button
-                                    type="submit"
-                                    className="w-20 rounded-md bg-black text-white"
-                                >Add</button>
+
+                            <div className="flex gap-3 pt-4">
                                 <button
                                     type="button"
-                                    className="w-20 rounded-md bg-black text-white ml-2"
+                                    className="flex-1 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm font-bold cursor-pointer transition-all duration-200"
                                     onClick={() => setShow(false)}
-                                >Cancel</button>
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 cursor-pointer transition-all duration-200"
+                                >
+                                    Add Entry
+                                </button>
                             </div>
                         </form>
                     </div>
-                </div>
-            </section>}
+                </section>
+            )}
             <button
                 onClick={() => setShow(true)}
-                className="self-end mr-2 w-16 h-6 m-3">
-                <FaPlus />
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-semibold shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer self-center"
+            >
+                <FaPlus className="w-3.5 h-3.5" />
+                <span>New Entry</span>
             </button>
         </>
     );

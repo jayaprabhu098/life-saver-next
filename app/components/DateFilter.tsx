@@ -17,10 +17,12 @@ export default function DateFilter(props: IDateFilter) {
         }
     };
 
-    return (<input
-        type="month"
-        onChange={onChange}
-        className="mr-10 text-white bg-slate-500 rounded-xl p-2"
-        value={props.year + '-' + String(props.month).padStart(2, '0')}
-    />);
+    return (
+        <input
+            type="month"
+            onChange={onChange}
+            className="text-zinc-800 dark:text-zinc-100 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 cursor-pointer mr-6"
+            value={props.year + '-' + String(props.month).padStart(2, '0')}
+        />
+    );
 }

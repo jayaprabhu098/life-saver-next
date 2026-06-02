@@ -16,8 +16,6 @@ interface ILineChart {
     accounts: IAccountSchema[],
 }
 
-const colors = ['#FCA5A5', '#FDBA74', '#FDE68A', '#CA8A04'];
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -26,15 +24,14 @@ ChartJS.register(
     Tooltip,
 );
 
-
 export default function LineChart(
     props: ILineChart
 ) {
     const data: {
         name: string;
         total: number;
-        fill: string;
     }[] = [];
+    
     props.accounts.forEach(list => {
         const date = dayJs(list.createdAt).format("D");
         const index = data.findIndex(d =>
@@ -42,28 +39,78 @@ export default function LineChart(
         );
         if (index === -1) {
             data.push({
-                fill: colors[Math.floor((Math.random() * colors.length - 1) + 1)],
                 name: date,
                 total: list.amount
             });
         } else {
             data[index].total += list.amount;
         }
-
     });
 
+    // Sort chronologically by day of month
+    data.sort((a, b) => Number(a.name) - Number(b.name));
+
     return (
-        <div className="flex justify-center w-[22rem] h-60 align-center m-auto mt-10 mb-1">
+        <div className="flex justify-center w-full h-64 align-center m-auto mt-6">
             <Bar
                 data={{
-                    labels: data.map(d => d.name),
+                    labels: data.map(d => `Day ${d.name}`),
                     datasets: [
                         {
                             data: data.map(d => d.total),
-                            backgroundColor: data.map(d => d.fill),
-                            barThickness: 10,
+                            backgroundColor: 'rgba(99, 102, 241, 0.85)',
+                            hoverBackgroundColor: 'rgba(99, 102, 241, 1)',
+                            borderRadius: 6,
+                            barThickness: 12,
                         }
                     ]
+                }}
+                options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(24, 24, 27, 0.95)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#e4e4e7',
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1,
+                            padding: 10,
+                            boxPadding: 4,
+                            displayColors: false,
+                            callbacks: {
+                                label: (context) => `Total: ₹${new Intl.NumberFormat('en-IN').format(context.raw as number)}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                color: 'var(--text-muted)',
+                                font: {
+                                    size: 10,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(128, 128, 128, 0.1)',
+                            },
+                            ticks: {
+                                color: 'var(--text-muted)',
+                                font: {
+                                    size: 10,
+                                }
+                            }
+                        }
+                    }
                 }}
             />
         </div>

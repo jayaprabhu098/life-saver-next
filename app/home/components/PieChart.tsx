@@ -21,19 +21,33 @@ export default function PieChart(
             datasets: [
                 {
                     datalabels: {
-                        color: '#000000'
+                        color: '#ffffff',
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        }
                     },
-                    data: [props.expense, props.income - props.expense],
+                    data: [props.expense, Math.max(0, props.income - props.expense)],
                     backgroundColor: [
-                        'rgb(221, 233, 91)',
-                        'rgba(75, 192, 192, 1)',
+                        '#ef4444',
+                        '#10b981',
                     ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                    ],
-                    borderWidth: 1,
+                    borderColor: 'transparent',
+                    borderWidth: 0,
                 },
             ],
+        }}
+        options={{
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'var(--foreground)',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
         }}
     />)
 }

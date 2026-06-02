@@ -48,64 +48,82 @@ export default function Add(props: IProps) {
 
     return (
         <>
-            {show && <section
-                className="inset-0 z-[999] h-screen w-screen bg-black bg-opacity-40 backdrop-blur-sm transition-opacity duration-300 fixed"
-            >
-                <div className="flex flex-col justify-center items-center h-screen w-screen">
-                    <div className="w-60 h-[20rem] bg-blue-400 rounded-md p-5">
-                        <div
-                            className="text-xl font-bold mb-5 text-center"
-                        >Add {props.type == 1 ? "Expenses" : "Income"} Category</div>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <div className="h-20">
-                                <div className="flex w-full justify-start">
-                                    <div >Icon</div>
-                                    {file && <Image src={file} className="h-5" alt="Loading..." width={30} height={30} />}
+            {show && (
+                <section className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-md transition-all duration-300 p-4">
+                    <div className="w-full max-w-sm bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+                        <div className="text-xl font-bold mb-6 text-center text-zinc-900 dark:text-white uppercase tracking-wide">
+                            Add {props.type == 1 ? "Expense" : "Income"} Category
+                        </div>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                            <div>
+                                <div className="flex w-full justify-between items-center mb-1.5">
+                                    <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Category Icon</span>
+                                    {file && (
+                                        <div className="p-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
+                                            <Image src={file} className="object-contain" alt="Selected icon" width={24} height={24} />
+                                        </div>
+                                    )}
                                 </div>
-                                <input
-                                    type="file"
-                                    accept="image/png"
-                                    onChange={onChangeFile}
-                                />
-                                {form.formState.errors.icon
-                                    && <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.icon.message}</p>}
+                                <div className="relative border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 flex flex-col items-center justify-center hover:bg-zinc-50 dark:hover:bg-zinc-950 transition-colors cursor-pointer">
+                                    <input
+                                        type="file"
+                                        accept="image/png"
+                                        onChange={onChangeFile}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                    <div className="text-center">
+                                        <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">Click to upload icon</span>
+                                        <p className="text-[10px] text-zinc-400 mt-0.5">PNG format only</p>
+                                    </div>
+                                </div>
+                                {form.formState.errors.icon && (
+                                    <p className="text-red-500 text-xs mt-1 font-medium">
+                                        {form.formState.errors.icon.message}
+                                    </p>
+                                )}
                             </div>
 
-                            <div className="h-20">
-                                <div className="w-full">Name</div>
+                            <div>
+                                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                                    Category Name
+                                </label>
                                 <input
                                     {...form.register('name')}
-                                    placeholder='Enter name'
-                                    className="w-full rounded border-black border-2 pl-2 pr-2 text-black"
+                                    placeholder="e.g. Food, Salary"
+                                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-zinc-900 dark:text-white"
                                 />
-                                {form.formState.errors.name
-                                    && <p
-                                        className='text-red-700 text-sm'
-                                    >{form.formState.errors.name.message}</p>}
+                                {form.formState.errors.name && (
+                                    <p className="text-red-500 text-xs mt-1 font-medium">
+                                        {form.formState.errors.name.message}
+                                    </p>
+                                )}
                             </div>
 
-
-                            <div className="h-5 flex justify-end items-center">
-                                <button
-                                    type="submit"
-                                    className="w-20 rounded-md bg-black text-white"
-                                >Add</button>
+                            <div className="flex gap-3 pt-4">
                                 <button
                                     type="button"
-                                    className="w-20 rounded-md bg-black text-white ml-2"
+                                    className="flex-1 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-sm font-bold cursor-pointer transition-all duration-200"
                                     onClick={() => setShow(false)}
-                                >Cancel</button>
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow-md shadow-indigo-500/10 hover:shadow-indigo-500/20 cursor-pointer transition-all duration-200"
+                                >
+                                    Add Category
+                                </button>
                             </div>
                         </form>
                     </div>
-                </div>
-            </section>}
+                </section>
+            )}
             <button
                 onClick={() => setShow(true)}
-                className="self-end mr-2 w-16 h-6 m-3">
-                <FaPlus />
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-semibold shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/35 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer self-center"
+            >
+                <FaPlus className="w-3.5 h-3.5" />
+                <span>New Category</span>
             </button>
         </>
     )
