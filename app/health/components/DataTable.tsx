@@ -36,23 +36,23 @@ export default function DataTable(props: IDataTable) {
                         </span>
                     ) : (
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-450">
-                            +{diff} kg
+                            - {diff} kg
                         </span>
                     );
                 }
             },    
-            {
-                name: "Action",
-                cell: (row) => (
-                    <button
-                        onClick={() => props.onDelete(row.id)}
-                        className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
-                        title="Delete log"
-                    >
-                        <FaTrash className="w-3.5 h-3.5" />
-                    </button>
-                )
-            }
+            // {
+            //     name: "Action",
+            //     cell: (row) => (
+            //         <button
+            //             onClick={() => props.onDelete(row.id)}
+            //             className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+            //             title="Delete log"
+            //         >
+            //             <FaTrash className="w-3.5 h-3.5" />
+            //         </button>
+            //     )
+            // }
         ]}
     />)
 }

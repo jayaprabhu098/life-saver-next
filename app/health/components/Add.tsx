@@ -41,6 +41,8 @@ export default function Add(props: IAdd) {
                                 <input
                                     {...form.register('weight')}
                                     type="number"
+                                    step="0.01"
+                                    min="0"
                                     placeholder="e.g. 74.5"
                                     className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-zinc-900 dark:text-white"
                                 />

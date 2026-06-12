@@ -12,14 +12,14 @@ export default function Health() {
     useEffect(() => {
         const fetch = async () => {
             const res = await API.getHealthList();
-            setHealthList(res)
+            setHealthList(res.reverse())
         }
         fetch()
     }, [])
 
     const addHealth = async (health: IHealthSchema) => {
         health.createdAt = new Date();
-        health.weight = Number(health.weight);
+        health.weight = Number(parseFloat(health.weight.toString()).toFixed(2));
         health.id = ID();
         const _healthList = [...healthList, health]
         setHealthList(_healthList)
