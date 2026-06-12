@@ -30,11 +30,7 @@ export default function DataTable(props: IDataTable) {
                 selector: (row) => row.weight - needWight,
                 cell: (row) => {
                     const diff = row.weight - needWight;
-                    return diff <= 0 ? (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-400">
-                            {diff.toFixed(2)} kg
-                        </span>
-                    ) : (
+                    return (
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-450">
                             - {diff.toFixed(2)} kg
                         </span>
