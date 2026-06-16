@@ -4,7 +4,8 @@ export enum TableName {
   savingList = 'savingList',
   category = 'categories',
   account = 'accounts',
-  health = 'health'
+  health = 'health',
+  planning = 'planning'
 }
 
 export enum CategoryType {
@@ -53,4 +54,19 @@ export interface IHealthSchema {
   id: string;
   createdAt: Date;
   weight: number;
+}
+
+export interface IPlanningTaskSchema {
+  id: string;
+  text: string;
+  completed: boolean | null;
+  description: string | null;
+}
+
+export interface IPlanningDaySchema {
+  id: string;
+  date: string;
+  tasks: IPlanningTaskSchema[];
+  createdAt: Date;
+  reviewedAt: Date | null;
 }

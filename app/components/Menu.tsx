@@ -1,6 +1,6 @@
 'use client';
 import { AiOutlineAppstore } from "react-icons/ai";
-import { FaChartSimple, FaHeartCircleCheck } from "react-icons/fa6";
+import { FaChartSimple, FaHeartCircleCheck, FaClipboardList } from "react-icons/fa6";
 import { FaUser, FaChartPie, FaHome } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
@@ -39,6 +39,9 @@ export function Menu() {
                     <Link href='/health?' title="Weight Tracker" className={`flex items-center justify-center rounded-xl w-10 h-10 cursor-pointer transition-all duration-200 ${getActiveStyle('/health')}`}>
                         <FaHeartCircleCheck className="w-5 h-5" />
                     </Link>
+                    <Link href='/planning' title="Daily Planning" className={`flex items-center justify-center rounded-xl w-10 h-10 cursor-pointer transition-all duration-200 ${getActiveStyle('/planning')}`}>
+                        <FaClipboardList className="w-5 h-5" />
+                    </Link>
                     <Link href='/profile' title="Savings Target" className={`flex items-center justify-center rounded-xl w-10 h-10 cursor-pointer transition-all duration-200 ${getActiveStyle('/profile')}`}>
                         <FaUser className="w-5 h-5" />
                     </Link>
@@ -46,4 +49,4 @@ export function Menu() {
             </div>
         </header>
     );
-};
+};

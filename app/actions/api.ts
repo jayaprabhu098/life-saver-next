@@ -95,6 +95,18 @@ export const getSavingList = async (): Promise<Type.ISavingListSchema[]> => {
   return savingList;
 };
 
+export const savePlanningList = async (
+  list: Type.IPlanningDaySchema[]
+): Promise<void> => {
+  await save<Type.IPlanningDaySchema>(Type.TableName.planning, list);
+};
+
+export const getPlanningList = async (): Promise<Type.IPlanningDaySchema[]> => {
+  const planningList = await find<Type.IPlanningDaySchema>(Type.TableName.planning)
+  sortColumn(planningList)
+  return planningList;
+};
+
 const sortColumn = (list: Array<{ createdAt: Date }>) => {
   list.sort((a, b) => {
     a.createdAt = new Date(a.createdAt)
