@@ -37,18 +37,18 @@ export default function DataTable(props: IDataTable) {
                     );
                 }
             },    
-            // {
-            //     name: "Action",
-            //     cell: (row) => (
-            //         <button
-            //             onClick={() => props.onDelete(row.id)}
-            //             className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
-            //             title="Delete log"
-            //         >
-            //             <FaTrash className="w-3.5 h-3.5" />
-            //         </button>
-            //     )
-            // }
+            {
+                name: "Action",
+                cell: (row) => (
+                    <button
+                       onClick={() => props.onDelete(row.id)}
+                       className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+                         title="Delete log"
+                     >
+                         <FaTrash className="w-3.5 h-3.5" />
+                    </button>
+                 )
+             }
         ]}
     />)
 }
